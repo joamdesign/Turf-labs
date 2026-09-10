@@ -1,0 +1,174 @@
+/*
+ * Turf Labs Co. — design tokens.
+ *
+ * Color and type come straight from design-system.md. Spacing, radii, elevation and
+ * motion are not yet in that spec; the values below were normalized from the section
+ * references and are the single source for every component.
+ */
+:root {
+  /* ---------- Color: Light Blue — Brand Color 1 ---------- */
+  --color-blue-500: #0076bd;
+  --color-blue-400: #3391ca;
+  --color-blue-300: #66add7;
+  --color-blue-200: #99c8e5;
+  --color-blue-100: #cce4f2;
+  --color-blue: var(--color-blue-500);
+
+  /* ---------- Color: Deep Blue — Secondary Color 1 ---------- */
+  --color-deep-blue-500: #0e306d;
+  --color-deep-blue-400: #3e598a;
+  --color-deep-blue-300: #6e83a7;
+  --color-deep-blue-200: #9facc5;
+  --color-deep-blue-100: #cfd6e2;
+  --color-deep-blue: var(--color-deep-blue-500);
+
+  /* ---------- Color: Grass Green — Brand Color 2 ---------- */
+  --color-green-500: #008031;
+  --color-green-400: #33995a;
+  --color-green-300: #66b383;
+  --color-green-200: #99ccad;
+  --color-green-100: #cce6d6;
+  --color-green: var(--color-green-500);
+
+  /* ---------- Color: Deep Green — Secondary Color 2 ---------- */
+  --color-deep-green-500: #00461a;
+  --color-deep-green-400: #336b48;
+  --color-deep-green-300: #669076;
+  --color-deep-green-200: #99b5a3;
+  --color-deep-green-100: #ccdad1;
+  --color-deep-green: var(--color-deep-green-500);
+
+  /* ---------- Color: Muted Grey — Supporting ---------- */
+  --color-muted-500: #596582;
+  --color-muted-400: #7a849b;
+  --color-muted-300: #9ba3b4;
+  --color-muted-200: #bdc1cd;
+  --color-muted-100: #dee0e6;
+  --color-muted: var(--color-muted-500);
+
+  /* ---------- Color: Grey — Neutral ---------- */
+  --color-grey-500: #e5e6e9;
+  --color-grey-400: #eaebed;
+  --color-grey-300: #eff0f2;
+  --color-grey-200: #f5f5f6;
+  --color-grey-100: #fafafb;
+  --color-grey: var(--color-grey-500);
+
+  --color-white: #ffffff;
+
+  /* ---------- Text ink (not a ramp) ---------- */
+  --color-ink: #0a224d;
+  --color-ink-body: rgb(10 34 77 / 0.8);
+
+  /* ---------- Semantic surfaces ---------- */
+  --surface-page: var(--color-grey-100);
+  /*
+   * Page gradient, sampled from "Sections/00 full page reference.png": Light Blue 100 behind
+   * the header and hero, fading to Grey 100 by the end of section 02, where the white card of
+   * section 03 begins. Pixel stops are safe because the desktop layout is fixed at 1440.
+   */
+  --page-gradient-top: var(--color-blue-100);
+  --page-gradient-mid: #e9f2f8;
+  --page-gradient-end: var(--color-grey-100);
+  --page-gradient-mid-stop: 1600px; /* hero end */
+  --page-gradient-end-stop: 2290px; /* section 02 end */
+  --surface-raised: var(--color-grey-200);
+  --surface-dark: var(--color-deep-blue-500);
+  --surface-proof: var(--color-blue-100);
+  --surface-announcement: var(--color-green-100);
+  --border-hairline: rgb(10 34 77 / 0.08);
+
+  /* ---------- Typography ---------- */
+  --font-display: 'Helvetica', 'Helvetica Neue', Arial, sans-serif;
+  --font-body: 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+  --text-h1: 6rem; /* 96px */
+  --text-h2: 5rem; /* 80px */
+  --text-h6: 1.5rem; /* 24px — same size as body XL, but Helvetica Bold, not Inter Tight */
+  --text-h3: 3rem; /* 48px — provisional Headline 3, measured from the section 04 mock (Regular weight there) */
+  --text-2xl: 1.75rem; /* 28px — provisional lead size; fills the DS gap between 24px and Headline 2 */
+  --text-xl: 1.5rem; /* 24px */
+  --text-lg: 1.375rem; /* 22px */
+  --text-md: 1.25rem; /* 20px */
+  --text-sm: 1.125rem; /* 18px */
+  --text-xs: 1rem; /* 16px */
+  --text-label-1: 0.875rem; /* 14px */
+
+  --weight-body: 400;
+  --weight-medium: 500;
+  --weight-bold: 700;
+  --weight-headline: var(--weight-bold);
+
+  --leading-h1: 1; /* spec: 100% */
+  --leading-h2: 1.15; /* spec "auto"; sections 02 and 03 both measure a ~92px pitch at 80px */
+  --leading-body: 1.45; /* spec "auto", resolved to a number */
+  --leading-ui: 1.2;
+  --leading-normal: normal; /* spec: "normal" — left as the font default, not resolved */
+
+  --tracking-display: -0.005em; /* Helvetica Bold at 96px; the reference measures at ~0 */
+
+  /* ---------- Layout / grid ---------- */
+  --page-width: 1440px;
+  --announcement-h: 44px;
+  --header-h: 104px; /* in-flow header height; the hero's rays reach up behind it */
+  --grid-columns: 12;
+  --grid-margin: 40px;
+  --grid-gutter: 20px;
+
+  /* ---------- Spacing (4px base) ---------- */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-14: 56px;
+  --space-16: 64px;
+  --space-20: 80px;
+  --space-24: 96px;
+  --space-30: 120px;
+  --space-32: 128px;
+  --space-36: 144px;
+  --space-section: var(--space-32);
+
+  /* ---------- Radii ---------- */
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-xl: 48px; /* section cards */
+  --radius-pill: 999px;
+
+  /* ---------- Frosted glass (comparison panel) ---------- */
+  --frost-bg: rgb(255 255 255 / 0.4);
+  /* White edge: reads only against a saturated ground such as the comparison sky. On a
+     near-white surface it measures ~1.05 contrast and disappears. */
+  --frost-border: rgb(255 255 255 / 0.55);
+  --frost-blur: blur(22px) saturate(1.2);
+  --frost-shadow: 0 24px 60px rgb(14 48 109 / 0.12);
+
+  /* ---------- Elevation ---------- */
+  --shadow-sm: 0 1px 2px rgb(10 34 77 / 0.06), 0 2px 8px rgb(10 34 77 / 0.06);
+  --shadow-md: 0 4px 16px rgb(10 34 77 / 0.1);
+
+  /* ---------- Control sizes ---------- */
+  --control-h-sm: 48px;
+  --control-h: 56px;
+  --control-h-lg: 58px;
+  --pill-h: 76px;
+
+  /* ---------- Motion ---------- */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-weighted: cubic-bezier(0.2, 0.75, 0.15, 1); /* slow start, long settle: weight */
+  --reveal-distance: 18px; /* design-system.md › Motion › Text reveal */
+  --reveal-duration: 1100ms;
+  --duration-fast: 150ms;
+  --duration-base: 240ms;
+  --duration-slow: 600ms;
+
+  /* ---------- Focus ---------- */
+  --focus-ring: 0 0 0 3px var(--color-white), 0 0 0 6px var(--color-blue-500);
+}

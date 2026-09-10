@@ -1,0 +1,280 @@
+/*
+ * Measured from "Sections/03 choose your size.png" (section-local y, 1440 wide):
+ *   headline caps 109–277 (2 lines, ~93px pitch) · group label 361–377 · tile boxes 402–819 (402×417)
+ *   tile title 852 · use line 889 · price/coverage 928 · second group label 1140 · pro boxes 1181–1598 (615×417)
+ * Tiles are snapped to the 12-column grid (440 / 670 wide) instead of the mock's off-grid 402 / 615.
+ * Card (updated mock, 2026-09-10): 407 × 558, 1px Deep Blue 100 border, 16px radius, 20px inset around
+ * a 369 × 443 image box; copy row below with label + use case left and a large bold price right.
+ */
+.sizes {
+  /*
+   * Both groups' image boxes are 417 tall in the mock — that is the shared constant, not the
+   * aspect ratio. The ratios there (402/417 and 615/417) belong to the mock's off-grid widths;
+   * once the tiles snapped to the grid (440/670) and the card gained its 16px inset and border,
+   * the same ratios resolved to two different heights and the groups stopped matching.
+   */
+  --tile-media-h: 443px; /* the updated mock: 369 × 443 image box in a 407 × 558 card */
+
+  position: relative;
+  padding: var(--space-24) 0 var(--space-32);
+  background: var(--color-white);
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0; /* the sky of section 04 butts up square underneath */
+}
+
+.sizes__headline {
+  max-width: 1000px;
+  text-wrap: balance;
+}
+
+.sizes__group {
+  margin-top: 72px;
+}
+
+.sizes__group + .sizes__group {
+  margin-top: var(--space-32);
+}
+
+.sizes__grid {
+  margin-top: var(--space-6);
+  row-gap: var(--space-16);
+}
+
+/*
+ * One tile size for both groups. The mock draws the professional cards at the same 373×447
+ * image box as the yard cards, in the same first two columns — not wider ones — so the two
+ * pro tiles simply leave the third column empty rather than stretching to fill the row.
+ */
+.tile {
+  grid-column: span 4;
+}
+
+.tile__card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: var(--space-5); /* 20px inset, as the mock draws it */
+  border: 1px solid var(--color-deep-blue-100);
+  border-radius: var(--radius-md);
+  transition: border-color var(--duration-base) var(--ease-standard);
+}
+
+.tile__card:hover,
+.tile__card:focus-within {
+  border-color: var(--color-deep-blue-200);
+}
+
+/* ---------- Media ---------- */
+.tile__media {
+  position: relative;
+  display: grid;
+  place-items: center;
+  height: var(--tile-media-h);
+  padding: var(--space-8);
+  border-radius: var(--radius-sm);
+  background: var(--surface-raised);
+  overflow: hidden;
+  isolation: isolate;
+  transition: background-color var(--duration-slow) var(--ease-standard);
+}
+
+
+/*
+ * Contact shadow under the render (default state). Two layers, as a real shadow has:
+ *   core      a tight, dark ellipse hugging the contact line (the product's base)
+ *   penumbra  a wider, softer, lighter ellipse thrown to the lower left, away from the light
+ *             (the hero's light comes from the upper right)
+ * Width comes from each product's footprint (--shadow-w, set per tile). Fades with the base
+ * render on hover so the lifestyle photograph stays clean.
+ */
+.tile__shadow {
+  --shadow-w: 50%;
+  --shadow-base: 52px; /* the render's base line, measured from the box bottom (32px padding + centring) */
+
+  position: absolute;
+  left: 50%;
+  bottom: var(--shadow-base);
+  width: var(--shadow-w);
+  height: 44px;
+  border-radius: 50%;
+  background: radial-gradient(50% 50% at 50% 50%, rgb(10 34 77 / 0.3) 0%, rgb(10 34 77 / 0.12) 50%, rgb(10 34 77 / 0) 100%);
+  transform: translate(calc(-50% - 6%), 50%) scaleX(1.35);
+  filter: blur(10px);
+  transition: opacity 420ms var(--ease-standard);
+}
+
+.tile__shadow::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 80%;
+  height: 16px;
+  border-radius: 50%;
+  background: radial-gradient(50% 50% at 50% 50%, rgb(10 34 77 / 0.55) 0%, rgb(10 34 77 / 0.28) 55%, rgb(10 34 77 / 0) 100%);
+  transform: translate(calc(-50% + 4%), -50%);
+  filter: blur(2.5px);
+}
+
+.tile__card:hover .tile__media--swap .tile__shadow,
+.tile__card:focus-within .tile__media--swap .tile__shadow {
+  opacity: 0;
+}
+
+/* Fixed heights (box inner height 392 / 390 at the 1440 layout) so late-loading renders never resize the box. */
+.tile__image {
+  grid-area: 1 / 1;
+  height: 76%;
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+  scale: 1;
+}
+
+/*
+ * The two renders are not crossfaded. The base zooms toward the viewer and vanishes, and the
+ * hover render is uncovered behind it — so the base leads and the timings are deliberately
+ * unequal: its fade (420ms) is much shorter than its zoom (780ms), which means it is already
+ * invisible while still growing, and never sits half-transparent on top of the hover render.
+ *
+ * `scale` is kept separate from `transform` so it composes with the lift-and-zoom the no-swap
+ * variant uses further down rather than overwriting it.
+ */
+.tile__image--base {
+  transition:
+    opacity 420ms var(--ease-standard),
+    transform 700ms var(--ease-out),
+    scale 780ms var(--ease-out);
+}
+
+/* Hover render fills the image box edge to edge (cover), centred. */
+.tile__image--hover {
+  position: absolute;
+  grid-area: auto; /* abs-pos grid children are placed against their grid area; auto = the whole box */
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+  opacity: 0;
+  scale: 1.08; /* settles to 1 as it is uncovered; the media box clips the overshoot */
+  /* Delay is 0 here so leaving is immediate; the hover rule adds the lead-in offset. */
+  transition:
+    opacity 560ms var(--ease-standard) 0ms,
+    scale 900ms var(--ease-out) 0ms;
+}
+
+/* ---------- Hover / focus state ---------- */
+.tile__card:hover .tile__media,
+.tile__card:focus-within .tile__media {
+  background: var(--color-grey-300);
+}
+
+/* The base render zooms past the frame and is gone; `overflow: hidden` on the media clips it. */
+.tile__card:hover .tile__media--swap .tile__image--base,
+.tile__card:focus-within .tile__media--swap .tile__image--base {
+  opacity: 0;
+  scale: 1.35;
+}
+
+/* Uncovered behind it, a beat later, settling the last 8% as it arrives. */
+.tile__card:hover .tile__media--swap .tile__image--hover,
+.tile__card:focus-within .tile__media--swap .tile__image--hover {
+  opacity: 1;
+  scale: 1;
+  transition-delay: 90ms;
+}
+
+/* Without one (renders not yet supplied): the base render lifts and zooms instead. */
+.tile__card:hover .tile__media:not(.tile__media--swap) .tile__image--base,
+.tile__card:focus-within .tile__media:not(.tile__media--swap) .tile__image--base {
+  transform: translateY(-8px) scale(1.05);
+}
+
+/* ---------- Copy ---------- */
+/*
+ * Flex, not a plain block: the card is a flex column, so .tile__title's margin-top used to
+ * sit against the card. Wrapping it in a block would let that margin collapse through the
+ * wrapper and change the spacing; a flex context keeps it exactly where it was.
+ */
+.tile__copy {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  margin-top: var(--space-5);
+}
+
+.tile__text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+/* Headline 6 per design-system.md: Helvetica Bold 24px. */
+.tile__title {
+  margin-top: 0;
+  font-family: var(--font-display);
+  font-size: var(--text-h6);
+  font-weight: var(--weight-headline);
+  line-height: var(--leading-ui);
+  letter-spacing: -0.01em;
+  color: var(--color-ink);
+}
+
+/* Body Xs per design-system.md. Family and weight inherit (Inter Tight Regular). */
+.tile__use {
+  margin-top: var(--space-1);
+  font-size: var(--text-xs);
+  color: var(--color-ink-body);
+}
+
+.tile__coverage {
+  margin-top: var(--space-1);
+  font-size: var(--text-label-1);
+  line-height: var(--leading-normal);
+  color: var(--color-ink-body);
+}
+
+/* CTA overlaid on the image, centred, revealed on hover or keyboard focus. */
+.tile__actions {
+  position: absolute;
+  right: 0;
+  bottom: var(--space-6);
+  left: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transform: translateY(10px);
+  transition:
+    opacity var(--duration-base) var(--ease-standard),
+    transform 320ms var(--ease-out);
+}
+
+.tile__card:hover .tile__actions,
+.tile__card:focus-within .tile__actions {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Price, right of the copy row: large and bold as the mock draws it. Placeholder strings may wrap. */
+.tile__price {
+  flex: none;
+  max-width: 42%;
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  font-size: var(--text-2xl);
+  font-weight: var(--weight-bold);
+  line-height: var(--leading-ui);
+  text-align: right;
+  text-wrap: balance;
+}
+
+/* CTA: the hero's button style, stretched to 70% of the card's width with the label centred. */
+.tile__cta {
+  flex: none;
+  /* 70% of the card: the image box is the card minus its 16px inset and 1px border on each side. */
+  width: calc(70% + 24px);
+  justify-content: center;
+}

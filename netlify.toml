@@ -1,0 +1,31 @@
+# Netlify build config.
+#
+# The site is a single static page (no client-side routing), so no SPA redirect is needed —
+# leaving it off means a bad path still 404s honestly instead of silently serving the homepage.
+#
+# `npm run build` runs `tsc --noEmit && vite build`, so a type error fails the deploy rather
+# than shipping a broken bundle.
+
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  # Vite 6 needs 18+; 22 is the current Netlify LTS default and matches what the build uses.
+  NODE_VERSION = "22"
+
+# Fingerprinted assets are safe to cache forever; the HTML must not be.
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/fonts/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/index.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"

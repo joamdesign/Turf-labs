@@ -1,0 +1,146 @@
+/*
+ * Vertical rhythm measured from the 1440-wide reference (page y, header ends at 148):
+ *   label 276 · headline cap top 323 · CTA 811–869 · proof strip 1230–1329 · section end ~1471
+ */
+.hero {
+  position: relative;
+  padding-top: var(--space-32);
+  padding-bottom: var(--space-36);
+  /*
+   * Clip sideways only. `overflow: hidden` here used to contain the bottle and the proof
+   * marquee, but it also trapped the rays inside the section; `clip` on one axis leaves the
+   * other visible without turning the hero into a scroll container, so the rays can reach up
+   * behind the header while the horizontal clipping still holds.
+   */
+  overflow-x: clip;
+  overflow-y: visible;
+}
+
+/*
+ * Layering (all in the section's stacking context, so no z-index on the layout itself):
+ *   z 6  label, headline lines 1–3, CTA, subheadline   → in front of the bottle
+ *   z 5  bottle
+ *   z 1  headline lines 4–5, proof strip              → behind the bottle
+ */
+.hero__layout {
+  position: relative;
+  align-items: end;
+}
+
+/*
+ * First-load sequence: label → headline lines (staggered) → CTA + paragraph → bottle.
+ * The bottle's own timing lives in BottleStage.css and starts after --hero-copy-done.
+ */
+.hero {
+  --hero-line-step: 120ms;
+  --hero-line-duration: 1300ms;
+  --hero-line-ease: var(--ease-weighted);
+  --hero-copy-done: 1150ms;
+}
+
+/* Each line is masked to its own line box; the text rises up into it from below. */
+.hero__line {
+  position: relative;
+  display: inline-block;
+  vertical-align: top;
+  overflow: hidden;
+  padding-block: 0.04em; /* keeps round-letter overshoot inside the clip */
+  margin-block: -0.04em;
+}
+
+.hero__line-inner {
+  display: inline-block;
+  animation: hero-title-rise var(--hero-line-duration) var(--hero-line-ease) both;
+  animation-delay: calc(120ms + var(--hero-line-step) * var(--line, 0));
+}
+
+@keyframes hero-title-rise {
+  from {
+    opacity: 0;
+    transform: translateY(105%);
+  }
+  40% {
+    opacity: 1;
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hero__line--front {
+  z-index: 6;
+}
+
+.hero__line--back {
+  z-index: 1;
+}
+
+.hero__copy {
+  grid-column: 1 / 9;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.hero__label {
+  position: relative;
+  z-index: 6;
+  display: inline-flex;
+  animation: hero-copy-in 600ms var(--ease-out) both;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--color-blue-500);
+  font-size: var(--text-xs);
+  line-height: var(--leading-body);
+}
+
+.hero__label-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--color-green-300);
+}
+
+.hero__headline {
+  margin-top: var(--space-3);
+  text-transform: uppercase;
+}
+
+.hero__cta {
+  z-index: 6;
+  margin-top: var(--space-5);
+  animation: hero-copy-in 600ms var(--ease-out) var(--hero-copy-done) both;
+}
+
+/* Reference: x 1065–1391 (clear of the bottle by ~80px), four lines on a 31px pitch, bottom aligned with the CTA. */
+.hero__subheadline {
+  position: relative;
+  z-index: 6;
+  grid-column: 10 / 13;
+  color: var(--color-ink-body);
+  font-size: var(--text-lg);
+  line-height: 1.4;
+  text-wrap: pretty;
+  /*
+   * Entrance is the shared .text-reveal (design-system.md). It is scheduled in JS rather than
+   * with an animation-delay here: HERO_BODY_DELAY in Hero.tsx is a cap that the reader's first
+   * scroll cancels, so the paragraph is never held invisible after they have moved on.
+   */
+}
+
+@keyframes hero-copy-in {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* The bottle and the molecule mark are the only positioned elements; the strip stays in flow. */
+.hero .proof {
+  margin-top: 360px;
+}

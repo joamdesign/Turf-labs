@@ -1,0 +1,225 @@
+/*
+ * Measured from "Sections/04 Us vs. them.png" (section-local, 1440 × 814):
+ *   panel x 452–1396 (944) · y 145–643 (498) · columns 246 / 352 / 346 · header row 81 · rows 80 (94 when two lines)
+ *   cell inset 32 · headline caps 181–336 (3 lines, 56px pitch) · intro 3 lines, ~34px pitch
+ * Snapped to the grid: copy in cols 1–4, panel in cols 5–12 (900 wide), column split kept proportional.
+ * The full-page reference shows the sky full-bleed with square corners, directly under section 03.
+ */
+.compare {
+  --compare-sky-image: none; /* drop the sky photograph in here when supplied: url('/backgrounds/sky.jpg') */
+
+  position: relative;
+  min-height: 814px;
+  padding: 144px 0;
+  color: var(--color-white);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+/* ---------- Sky ---------- */
+.compare__sky {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-color: #6fb0ec;
+  background-image:
+    var(--compare-sky-image),
+    linear-gradient(168deg, #5b9fe6 0%, #74b3ef 32%, #9ccdf6 62%, #c6e3fd 88%, #d6ebfe 100%);
+  background-size: cover;
+  background-position: center;
+}
+
+.compare__cloud {
+  position: absolute;
+  border-radius: 50%;
+  /* Soft falloff does the blurring: no filter, so nothing is re-rasterised during scroll or capture. */
+  background: radial-gradient(closest-side, rgb(255 255 255 / 0.85) 0%, rgb(255 255 255 / 0.5) 35%, rgb(255 255 255 / 0.18) 65%, rgb(255 255 255 / 0) 100%);
+}
+
+.compare__cloud--a {
+  top: -140px;
+  right: -80px;
+  width: 720px;
+  height: 360px;
+}
+
+.compare__cloud--b {
+  top: 60px;
+  left: 420px;
+  width: 520px;
+  height: 220px;
+  opacity: 0.7;
+}
+
+.compare__cloud--c {
+  bottom: -160px;
+  left: -120px;
+  width: 760px;
+  height: 340px;
+}
+
+.compare__cloud--d {
+  bottom: -60px;
+  right: 120px;
+  width: 620px;
+  height: 260px;
+  opacity: 0.8;
+}
+
+/* ---------- Layout ---------- */
+.compare__layout {
+  align-items: start;
+}
+
+.compare__copy {
+  grid-column: 1 / 5;
+  margin-top: 36px;
+  max-width: 420px;
+}
+
+/*
+ * Headline per design-system.md: Helvetica Bold, Headline 2 leading and display tracking.
+ * Size is the provisional Headline 3 token (the spec's 24–80px gap is still open); at Bold
+ * the third line wraps, giving four lines in the 4-column measure.
+ */
+.compare__headline {
+  color: var(--color-white);
+  font-size: var(--text-h3);
+  font-weight: var(--weight-headline);
+  line-height: var(--leading-h2);
+  letter-spacing: var(--tracking-display);
+}
+
+/* Body XL, Inter Tight Regular. White on the sky: ink has no dark-surface variant. */
+.compare__intro {
+  max-width: 360px; /* three lines, clear of the panel */
+  margin-top: var(--space-8);
+  color: rgb(255 255 255 / 0.85);
+  font-size: var(--text-xl);
+  font-weight: var(--weight-body);
+  line-height: var(--leading-body);
+  text-wrap: pretty;
+}
+
+/* ---------- Frosted panel + table ---------- */
+.compare__panel {
+  --compare-col-label: 26%;
+  --compare-col-us: 37%;
+
+  position: relative;
+  grid-column: 5 / 13;
+  margin-left: -48px; /* the mock's panel starts at x 452, 48px into the gutter before column 5 */
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--frost-border);
+  background: var(--frost-bg);
+  -webkit-backdrop-filter: var(--frost-blur);
+  backdrop-filter: var(--frost-blur);
+  box-shadow: var(--frost-shadow);
+}
+
+/* The OdorRx column's card: sits behind the cells, 10% taller than the table top and bottom. */
+.compare__highlight {
+  position: absolute;
+  top: -10%;
+  left: var(--compare-col-label);
+  width: var(--compare-col-us);
+  height: 120%;
+  border-radius: var(--radius-lg);
+  border: 1px solid rgb(255 255 255 / 0.85);
+  background:
+    linear-gradient(180deg, rgb(204 218 209 / 0.35), rgb(204 218 209 / 0.2)),
+    rgb(255 255 255 / 0.62);
+  -webkit-backdrop-filter: blur(22px) saturate(1.2);
+  backdrop-filter: blur(22px) saturate(1.2);
+  box-shadow: 0 28px 64px rgb(14 48 109 / 0.2);
+}
+
+.compare__table {
+  position: relative; /* above the highlight card */
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  font-size: var(--text-sm); /* Body Small, Inter Tight Regular; the mock's cells measure 18px */
+  font-weight: var(--weight-body);
+  line-height: var(--leading-body);
+}
+
+.compare__table col:first-child,
+.compare__table th:first-child,
+.compare__table td:first-child {
+  width: var(--compare-col-label);
+}
+
+.compare__table th,
+.compare__table td {
+  padding: var(--space-6) var(--space-4) var(--space-6) var(--space-8);
+  vertical-align: middle;
+  text-align: left;
+  border-top: 1px solid rgb(255 255 255 / 0.6);
+  border-left: 1px solid rgb(255 255 255 / 0.6);
+}
+
+.compare__table th:first-child,
+.compare__table td:first-child {
+  border-left: 0;
+}
+
+.compare__table thead th,
+.compare__table thead td {
+  height: 81px;
+  border-top: 0;
+  background: rgb(255 255 255 / 0.1);
+}
+
+.compare__table tbody tr {
+  height: 80px;
+}
+
+/* Column headers: Label 1 (14px Inter Tight Regular, line-height normal), tracked caps as in the mock. */
+.compare__col {
+  font-size: var(--text-label-1);
+  font-weight: var(--weight-body);
+  line-height: var(--leading-normal);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* Column roles from the colour system: Deep Green marks the OdorRx column, Muted Grey the others. */
+.compare__col--us {
+  color: var(--color-deep-green-500);
+}
+
+.compare__col--them {
+  color: var(--color-muted-500);
+}
+
+/* Inside the raised card the vertical dividers go; the row separators stay, softer. */
+.compare__table th:nth-child(2),
+.compare__table td:nth-child(2) {
+  border-left-color: transparent;
+}
+
+.compare__table th:nth-child(3),
+.compare__table td:nth-child(3) {
+  border-left-color: transparent;
+}
+
+.compare__table tbody th:nth-child(1) {
+  border-right: 1px solid rgb(255 255 255 / 0.6);
+}
+
+.compare__table thead td:nth-child(1) {
+  border-right: 1px solid rgb(255 255 255 / 0.6);
+}
+
+/* Row labels: headline ink and headline weight (the only emphasis weight the spec defines). */
+.compare__label {
+  font-weight: var(--weight-headline);
+  color: var(--color-ink);
+}
+
+.compare__table tbody td {
+  color: var(--color-ink-body);
+}

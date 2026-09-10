@@ -1,0 +1,165 @@
+/*
+ * Pinched pill, one continuous contour (mask-image, vector):
+ *
+ *   The mock joins the icon circle and the text pill's cap as two overlapping circles, which
+ *   meet at a cusp. To make the join fluid, a concave "meniscus" arc is added between them,
+ *   tangent to both circles — so the outline runs circle → meniscus → cap with no corner and
+ *   no intersection anywhere.
+ *
+ *   Geometry at the 76px pill (r = 38), y down, origin at the pill's top-left:
+ *     icon circle centre  (38, 38)
+ *     cap circle centre   (102, 38)        d = 64 = 0.84h between the centres
+ *     meniscus            R = 22, centre (70, −12.8): externally tangent to both circles,
+ *                         since sqrt(32² + 50.8²) = 60 = r + R
+ *     tangent points      (58.3, 5.8) on the icon circle, (81.7, 5.8) on the cap
+ *     waist               top edge at y = 9.2, so the pill is 57.6px (76%) tall at the pinch
+ *   The path below is that outline for x ≤ 140; a plain gradient covers the rest of the pill
+ *   and the element's own border-radius rounds the right end.
+ */
+.proof {
+  --proof-gap: 32px;
+  --proof-offset: -48px; /* first pill starts cut by the viewport edge, as in the reference */
+  --proof-head-w: 140px; /* width of the vector head: circle + meniscus + cap centre */
+  --proof-head: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 140 76'%3E%3Cpath fill='%23000' d='M0 38 A38 38 0 0 1 58.3 5.8 A22 22 0 0 0 81.7 5.8 A38 38 0 0 1 102 0 H140 V76 H102 A38 38 0 0 1 81.7 70.2 A22 22 0 0 0 58.3 70.2 A38 38 0 0 1 0 38 Z'/%3E%3C/svg%3E");
+
+  position: relative;
+  z-index: 1; /* behind the bottle (z 5) */
+  width: 100%;
+  overflow: hidden;
+  padding-block: 8px; /* room for the hover scale without clipping */
+  margin-block: -8px;
+}
+
+.proof__track {
+  display: flex;
+  width: max-content;
+  transform: translateX(var(--proof-offset));
+}
+
+/* Loops from the moment the pills appear; only pauses (never restarts) while offscreen or hovered. */
+.proof.is-revealed .proof__track {
+  animation: proof-marquee 19s linear infinite;
+  animation-play-state: paused;
+}
+
+.proof.is-revealed.is-active .proof__track {
+  animation-play-state: running;
+}
+
+/* Resting the cursor on a pill stops the loop; the pill lights up and grows. */
+.proof:has(.proof__pill:hover) .proof__track {
+  animation-play-state: paused;
+}
+
+.proof__list {
+  display: flex;
+  gap: var(--proof-gap);
+  padding-right: var(--proof-gap);
+}
+
+/* ---------- Pill: one element draws the whole silhouette; children carry only glyph and text ---------- */
+.proof__pill {
+  --pill-bg: var(--surface-proof);
+  --pill-fg: var(--color-ink);
+  --pill-icon: var(--color-blue-500);
+
+  display: inline-flex;
+  align-items: center;
+  height: var(--pill-h);
+  border-radius: var(--radius-pill);
+  background: var(--pill-bg);
+  color: var(--pill-fg);
+  font-size: var(--text-xs);
+  line-height: var(--leading-ui);
+  white-space: nowrap;
+  cursor: default;
+  opacity: 0;
+  transform: translateY(14px);
+  /* `scale` is separate from `transform`, so the reveal animation's fill cannot override it. */
+  scale: 1;
+  transform-origin: center;
+  transition:
+    scale var(--duration-base) var(--ease-out),
+    background-color var(--duration-base) var(--ease-standard),
+    color var(--duration-base) var(--ease-standard);
+
+  /* Vector head on the left, solid fill for the remainder: union of the two layers. */
+  -webkit-mask-image: var(--proof-head), linear-gradient(#000, #000);
+  mask-image: var(--proof-head), linear-gradient(#000, #000);
+  /* The fill layer starts 2px inside the head (whose tail is solid) so the seam never opens under the hover scale. */
+  -webkit-mask-size: var(--proof-head-w) 100%, calc(100% - var(--proof-head-w) + 2px) 100%;
+  mask-size: var(--proof-head-w) 100%, calc(100% - var(--proof-head-w) + 2px) 100%;
+  -webkit-mask-position: 0 0, calc(var(--proof-head-w) - 2px) 0;
+  mask-position: 0 0, calc(var(--proof-head-w) - 2px) 0;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+}
+
+.proof__pill:hover {
+  --pill-bg: var(--color-blue-500);
+  --pill-fg: var(--color-white);
+  --pill-icon: var(--color-white);
+  scale: 1.15;
+}
+
+.proof__icon {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: var(--pill-h);
+  height: var(--pill-h);
+  color: var(--pill-icon);
+  transition: color var(--duration-base) var(--ease-standard);
+}
+
+.proof__icon svg {
+  width: 22px;
+  height: 22px;
+}
+
+/* Text begins just inside the cap's centre line (x ≈ 98); right padding as in the mock. */
+.proof__label {
+  display: inline-flex;
+  align-items: center;
+  height: 100%;
+  padding: 0 36px 0 22px;
+}
+
+/* ---------- Reveal ---------- */
+.proof.is-revealed .proof__pill {
+  animation: proof-pill-in var(--duration-slow) var(--ease-out) forwards;
+  animation-delay: calc(var(--i) * 60ms);
+}
+
+/* Static capture / reduced motion: resting state, nothing hidden. */
+html[data-static] .proof__pill {
+  opacity: 1;
+  transform: none;
+}
+
+@keyframes proof-pill-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes proof-marquee {
+  from {
+    transform: translateX(var(--proof-offset));
+  }
+  to {
+    transform: translateX(calc(-50% + var(--proof-offset)));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .proof__pill {
+    opacity: 1;
+    transform: none;
+  }
+}

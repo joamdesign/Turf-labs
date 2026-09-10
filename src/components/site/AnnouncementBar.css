@@ -1,0 +1,58 @@
+/*
+ * Scrolling announcement. Same marquee construction as the proof strip: two identical runs on
+ * a max-content track, translated exactly one run width so the wrap is seamless.
+ */
+.announcement {
+  display: flex;
+  align-items: center;
+  height: var(--announcement-h);
+  overflow: hidden;
+  background: var(--surface-announcement);
+  color: var(--color-ink-body);
+}
+
+.announcement__track {
+  /* ~2850px per run at ~45px/s. Tied to REPEATS in AnnouncementBar.tsx — changing one
+     without the other changes the scroll speed. */
+  --marquee-duration: 64s;
+
+  display: flex;
+  width: max-content;
+  animation: announcement-marquee var(--marquee-duration) linear infinite;
+}
+
+/* Resting the cursor on the bar stops the loop so the message can be read. */
+.announcement:hover .announcement__track {
+  animation-play-state: paused;
+}
+
+.announcement__run {
+  display: flex;
+  align-items: center;
+}
+
+.announcement__text {
+  font-size: var(--text-label-1);
+  font-weight: var(--weight-bold);
+  line-height: var(--leading-normal);
+  white-space: nowrap;
+}
+
+/* The hero label's dot, reused as the separator. */
+.announcement__dot {
+  flex: none;
+  width: 14px;
+  height: 14px;
+  margin-inline: var(--space-8);
+  border-radius: 50%;
+  background: var(--color-green-300);
+}
+
+@keyframes announcement-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}

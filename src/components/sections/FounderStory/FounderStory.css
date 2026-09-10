@@ -1,0 +1,104 @@
+/*
+ * Measured from "Sections/05 Why We Made This.png" (section-local, 1440 × 749):
+ *   card x 36–1404 · y 37–714 · 50/50 split at x 714 · panel Grass Green 100 (#cce6d6)
+ *   copy inset 77 from the panel edge, measure ~516 · body 22px on the font's natural leading (27px pitch)
+ *   paragraph gap ~26 · attribution: 20px bold name, 16px title, ~100px below the story
+ * The card is snapped to the 1360px container; the wireframe headline is added at the top of the panel.
+ */
+.founder {
+  padding: var(--space-30) 0 var(--space-32); /* 120px above the card */
+  background: var(--color-white);
+}
+
+.founder__card {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+/* ---------- Copy panel ---------- */
+.founder__panel {
+  position: relative;
+  isolation: isolate; /* keeps the texture layer below the copy but above the panel fill */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: var(--space-20) 76px;
+  background: var(--color-green-100);
+}
+
+/*
+ * Grass texture at 3%, per the section reference. Measured from
+ * "Sections/05 Why We Made This.png": the panel's mean is #C9E4D1 against a pure Grass Green
+ * 100 of #CCE6D6, which is exactly this texture blended at 3% (predicted 200.68, 227.39,
+ * 209.21 vs 200.87, 227.65, 209.37 measured).
+ *
+ * Tiled rather than stretched. The source is a uniform grass field, so a 320px crop repeated
+ * at 1:1 carries the same grain as the full image at a ninth of the weight — and at 3% the
+ * repetition is well below the threshold where a seam could read.
+ */
+.founder__panel::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: url('/textures/grass-tile.webp') 0 0 / 320px repeat;
+  opacity: 0.03;
+  pointer-events: none;
+}
+
+.founder__copy {
+  max-width: 520px;
+}
+
+.founder__headline {
+  font-size: var(--text-h3);
+  line-height: var(--leading-h2);
+  letter-spacing: var(--tracking-display);
+  text-wrap: balance;
+}
+
+.founder__story {
+  margin: var(--space-8) 0 0;
+  color: var(--color-ink);
+  font-size: var(--text-lg);
+  line-height: var(--leading-normal);
+}
+
+.founder__story p + p {
+  margin-top: var(--space-6);
+}
+
+.founder__attribution {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  margin-top: var(--space-16);
+}
+
+.founder__name {
+  font-size: var(--text-md);
+  font-style: normal;
+  font-weight: var(--weight-headline);
+  line-height: var(--leading-ui);
+  color: var(--color-ink);
+}
+
+.founder__title {
+  font-size: var(--text-xs);
+  line-height: var(--leading-normal);
+  color: var(--color-ink-body);
+}
+
+/* ---------- Photograph ---------- */
+.founder__media {
+  margin: 0;
+  min-height: 677px;
+}
+
+.founder__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}

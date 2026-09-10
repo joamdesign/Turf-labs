@@ -1,0 +1,20 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "overused-font",
+        "value": "helvetica",
+        "createdAt": "2026-09-07T12:28:32.975Z",
+        "reason": "Brand font mandated by design-system.md; licensed files supplied in Fonts/"
+      },
+      {
+        "rule": "overused-font",
+        "value": "inter",
+        "createdAt": "2026-09-07T12:28:33.082Z",
+        "reason": "Inter Tight is the body font mandated by design-system.md"
+      }
+    ]
+  }
+}

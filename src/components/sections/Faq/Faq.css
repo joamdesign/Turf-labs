@@ -1,0 +1,124 @@
+/*
+ * Layout from "Sections/07 FAQs.png" (arrangement only):
+ *   card on the container with ~96px inner padding · headline in the left half · question pills
+ *   stacked in the right half, each a full-width pill with the question left and a plus at the right.
+ * Colour: Light Blue 100 card, white pills, ink text, Light Blue accents.
+ */
+.faq {
+  padding: 0 0 var(--space-32);
+  background: var(--color-white);
+}
+
+.faq__card {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: var(--space-16);
+  padding: var(--space-24);
+  border-radius: var(--radius-xl);
+  background: var(--color-blue-100); /* #CCE4F2 */
+}
+
+.faq__headline {
+  font-size: var(--text-h3);
+  line-height: var(--leading-h2);
+  letter-spacing: var(--tracking-display);
+  max-width: 420px;
+  text-wrap: balance;
+}
+
+.faq__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+/* ---------- Item ---------- */
+.faq-item {
+  border-radius: 28px; /* half the closed pill height: a pill when closed, a rounded card when open */
+  background: var(--color-white);
+  overflow: hidden;
+  transition:
+    box-shadow var(--duration-base) var(--ease-standard),
+    background-color var(--duration-base) var(--ease-standard);
+}
+
+.faq-item:hover,
+.faq-item.is-open {
+  box-shadow: var(--shadow-sm);
+}
+
+.faq-item__heading {
+  margin: 0;
+  font: inherit;
+}
+
+.faq-item__trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  width: 100%;
+  min-height: var(--control-h);
+  padding: var(--space-3) var(--space-5) var(--space-3) var(--space-6);
+  border: 0;
+  background: transparent;
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  font-size: var(--text-md);
+  font-weight: var(--weight-body);
+  line-height: var(--leading-normal);
+  text-align: left;
+  cursor: pointer;
+}
+
+.faq-item__trigger:focus-visible {
+  border-radius: 28px;
+}
+
+.faq-item__icon {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  color: var(--color-blue-500);
+  transition:
+    transform 320ms var(--ease-out),
+    background-color var(--duration-base) var(--ease-standard),
+    color var(--duration-base) var(--ease-standard);
+}
+
+.faq-item__trigger:hover .faq-item__icon {
+  background: var(--color-blue-100);
+}
+
+.faq-item.is-open .faq-item__icon {
+  transform: rotate(45deg);
+  background: var(--color-blue-500);
+  color: var(--color-white);
+}
+
+/* Answer: height animates via grid rows, so no layout-driving property is animated directly. */
+.faq-item__panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 360ms var(--ease-out);
+}
+
+.faq-item.is-open .faq-item__panel {
+  grid-template-rows: 1fr;
+}
+
+.faq-item__panel-inner {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.faq-item__answer {
+  padding: 0 var(--space-6) var(--space-5);
+  color: var(--color-ink-body);
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+  max-width: 60ch;
+}

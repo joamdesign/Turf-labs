@@ -1,0 +1,121 @@
+/*
+ * Placement follows "Sections/01 Hero + proof strip.png" at 1440 wide: bottle centred on
+ * x = 740, cap top at page y ≈ 420 (between headline lines 2 and 3), base at ≈ 1430 running
+ * past the proof strip. Layering is handled in Hero.css (z 5, between the headline layers).
+ */
+.bottle {
+  --bottle-size: 1000px;
+  --p: var(--scroll-progress, 0);
+  /*
+   * The render's opaque bounding box is centred at 49.88% of its own square canvas (measured
+   * from the alpha channel), and `object-fit: contain` maps a square image onto a square stage
+   * 1:1 — so this is the bottle's real vertical axis, not the stage's geometric middle. The
+   * contact shadow centres on it; the skew below is what carries the light direction.
+   */
+  --bottle-axis: 49.9%;
+
+  position: absolute;
+  top: 262px;
+  left: calc(50% + 20px);
+  z-index: 5;
+  width: var(--bottle-size);
+  height: var(--bottle-size);
+  margin: 0;
+  transform: translateX(-50%);
+  pointer-events: none;
+  /*
+   * First load, after the copy has landed: a slow, heavy slide up from well below into its
+   * slot between the headline layers. Long duration, strong late deceleration.
+   */
+  --bottle-enter-delay: calc(var(--hero-copy-done, 640ms) + 250ms);
+  --bottle-enter-duration: 1900ms;
+  --bottle-enter-ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+  animation: bottle-slide-in var(--bottle-enter-duration) var(--bottle-enter-ease) var(--bottle-enter-delay) both;
+}
+
+/* Render + lighting overlays move together on scroll: lags the page slightly, never changes shape. */
+.bottle__object {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform: translateY(calc(var(--p) * -80px)) scale(calc(1 + var(--p) * 0.04));
+  transform-origin: 50% 90%;
+  will-change: transform;
+}
+
+.bottle__image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  user-select: none;
+}
+
+/* ---------- Relighting, masked to the bottle's silhouette (light from the upper right) ---------- */
+.bottle__light {
+  position: absolute;
+  inset: 0;
+  -webkit-mask-image: var(--bottle-mask);
+  mask-image: var(--bottle-mask);
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+
+/* Rim highlight: a bright edge along the right side, brighter toward the shoulder. */
+.bottle__light--rim {
+  background:
+    linear-gradient(268deg, rgb(255 255 255 / 0.75) 0%, rgb(255 255 255 / 0.28) 9%, rgb(255 255 255 / 0) 22%),
+    linear-gradient(200deg, rgb(255 255 255 / 0.22) 0%, rgb(255 255 255 / 0) 45%);
+  mix-blend-mode: screen;
+}
+
+/* Shade: the side turned away from the light cools and darkens, softly. */
+.bottle__light--shade {
+  background: linear-gradient(94deg, rgb(10 34 77 / 0.3) 0%, rgb(10 34 77 / 0.14) 24%, rgb(10 34 77 / 0.04) 45%, rgb(10 34 77 / 0) 60%);
+  mix-blend-mode: multiply;
+}
+
+/* Contact shadow, thrown to the lower left, away from the light. */
+.bottle__shadow {
+  position: absolute;
+  left: var(--bottle-axis);
+  bottom: -6px;
+  width: 62%;
+  height: 52px;
+  background: radial-gradient(50% 50% at 50% 50%, rgb(10 34 77 / 0.26) 0%, rgb(10 34 77 / 0.1) 45%, rgb(10 34 77 / 0) 100%);
+  transform: translate(-50%, calc(var(--p) * -80px)) skewX(-12deg) scaleX(calc(1 + var(--p) * 0.04));
+  filter: blur(7px);
+  /* The contact shadow spreads as the bottle settles, which is what sells the weight. */
+  animation: bottle-shadow-in var(--bottle-enter-duration) var(--bottle-enter-ease) var(--bottle-enter-delay) both;
+}
+
+@keyframes bottle-slide-in {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, 380px);
+  }
+  25% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+@keyframes bottle-shadow-in {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, 0) skewX(-12deg) scaleX(0.55);
+  }
+  60% {
+    opacity: 0.4;
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, 0) skewX(-12deg) scaleX(1);
+  }
+}

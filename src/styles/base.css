@@ -1,0 +1,222 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  min-width: var(--page-width);
+  background-color: var(--surface-page);
+  background-image: linear-gradient(
+    180deg,
+    var(--page-gradient-top) 0,
+    var(--page-gradient-mid) var(--page-gradient-mid-stop),
+    var(--page-gradient-end) var(--page-gradient-end-stop)
+  );
+  background-repeat: no-repeat;
+  color: var(--color-ink-body);
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-body);
+  line-height: var(--leading-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+  color: var(--color-ink);
+  font-family: var(--font-display);
+  font-weight: var(--weight-headline);
+}
+
+h1 {
+  font-size: var(--text-h1);
+  line-height: var(--leading-h1);
+  letter-spacing: var(--tracking-display);
+}
+
+h2 {
+  font-size: var(--text-h2);
+  line-height: var(--leading-h2);
+  letter-spacing: var(--tracking-display);
+}
+
+p {
+  margin: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+  border-radius: var(--radius-sm);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Shared page container: 12 columns, 40px margins, 20px gutters (design-system.md). */
+.container {
+  width: 100%;
+  max-width: var(--page-width);
+  margin-inline: auto;
+  padding-inline: var(--grid-margin);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(var(--grid-columns), minmax(0, 1fr));
+  column-gap: var(--grid-gutter);
+}
+
+/*
+ * Universal text reveal (design-system.md › Motion). Held at the start frame until
+ * `.is-revealed` lands (via useInView) or a component applies the keyframes itself with a delay.
+ */
+.text-reveal {
+  opacity: 0;
+  transform: translateY(var(--reveal-distance));
+}
+
+.text-reveal.is-revealed {
+  animation: text-reveal var(--reveal-duration) var(--ease-weighted) forwards;
+}
+
+@keyframes text-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(var(--reveal-distance));
+  }
+  55% {
+    opacity: 1;
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Required: static capture and reduced motion disable the animation that would clear the start frame. */
+html[data-static] .text-reveal {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .text-reveal {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Static capture mode: every animation frozen at its resting state so screenshots are deterministic. */
+html[data-static] *,
+html[data-static] *::before,
+html[data-static] *::after {
+  animation: none !important;
+  transition: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/*
+ * Hero light rays. Live at page level (not inside the hero, which clips its overflow for the
+ * bottle's entrance) so the beams begin at the top of the page and pass behind the transparent
+ * header. Height covers header + hero; the mask fades the beams out well before that.
+ */
+.page-body {
+  position: relative;
+}
+
+.page-rays {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 0;
+  height: 1560px; /* header 104 + hero ≈ 1450 at the 1440 layout */
+  pointer-events: none;
+  overflow: hidden;
+  /* Beams are slices of a conic gradient anchored just outside the top-right corner. */
+  background: conic-gradient(
+    from 180deg at 104% -6%,
+    rgb(255 255 255 / 0) 14deg,
+    rgb(255 255 255 / 0.46) 20deg,
+    rgb(255 255 255 / 0) 27deg,
+    rgb(255 255 255 / 0) 33deg,
+    rgb(255 255 255 / 0.3) 39deg,
+    rgb(255 255 255 / 0) 47deg,
+    rgb(255 255 255 / 0) 53deg,
+    rgb(255 255 255 / 0.4) 58deg,
+    rgb(255 255 255 / 0) 66deg,
+    rgb(255 255 255 / 0) 360deg
+  );
+  /* Soft at the origin (30% at the corner, peaking a little way in), then fading out toward the copy. */
+  -webkit-mask-image: linear-gradient(215deg, rgb(0 0 0 / 0.3) 0%, rgb(0 0 0 / 0.65) 22%, rgb(0 0 0 / 0.5) 45%, rgb(0 0 0 / 0) 80%);
+  mask-image: linear-gradient(215deg, rgb(0 0 0 / 0.3) 0%, rgb(0 0 0 / 0.65) 22%, rgb(0 0 0 / 0.5) 45%, rgb(0 0 0 / 0) 80%);
+  opacity: 0.9;
+  animation: page-rays-drift 14s ease-in-out infinite alternate;
+}
+
+@keyframes page-rays-drift {
+  from {
+    opacity: 0.75;
+    transform: rotate(0deg);
+  }
+  to {
+    opacity: 1;
+    transform: rotate(-1.2deg);
+  }
+}

@@ -1,0 +1,111 @@
+/*
+ * Reference (section 02): 80px Helvetica Bold, 32px dots, 30px either side of each dot.
+ * Vertical padding leaves room for lifted characters; the outer margin cancels it in flow.
+ */
+.ticker {
+  --ticker-dot: 32px;
+  --ticker-gap: 30px;
+  --ticker-pad: 28px;
+
+  position: relative;
+  width: 100%;
+  margin: calc(var(--ticker-pad) * -1) 0;
+  padding: var(--ticker-pad) 0;
+  overflow: hidden;
+  font-size: var(--text-h2);
+  line-height: var(--leading-h2);
+  letter-spacing: var(--tracking-display);
+  color: var(--color-ink);
+  cursor: default;
+  user-select: none;
+}
+
+/* Static variant: centred lines, measured from the section 02 mock (80px on a 92px pitch). */
+.ticker--static {
+  line-height: 1.15;
+  text-align: center;
+}
+
+.ticker__static {
+  display: block;
+}
+
+/*
+ * Cursor text reveal: a second copy of the headline, filled with an image, clipped to a circle
+ * that follows the cursor. Each character carries a slice of one continuous image (set in JS).
+ * --reveal-r is 0 until the pointer arrives, so nothing shows in static capture.
+ */
+.ticker--reveal {
+  position: relative;
+}
+
+.ticker__reveal {
+  --reveal-x: -1000px;
+  --reveal-y: -1000px;
+  --reveal-r: 0px;
+
+  position: absolute;
+  inset: 0;
+  padding: var(--ticker-pad) 0;
+  pointer-events: none;
+  clip-path: circle(var(--reveal-r) at var(--reveal-x) var(--reveal-y));
+}
+
+.ticker__reveal .ticker__char {
+  color: transparent;
+  background-repeat: no-repeat;
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+.ticker--static .ticker__phrase {
+  display: block;
+}
+
+.ticker__track {
+  --ticker-start: 0px;
+  display: flex;
+  width: max-content;
+  transform: translateX(var(--ticker-start));
+  animation: ticker-scroll 52s linear infinite;
+}
+
+.ticker__half {
+  display: flex;
+  flex: none;
+}
+
+.ticker__unit {
+  display: inline-flex;
+  align-items: center;
+  flex: none;
+}
+
+.ticker__phrase {
+  display: inline-block;
+  white-space: pre;
+}
+
+.ticker__char {
+  display: inline-block;
+  transform-origin: 50% 85%;
+}
+
+.ticker__dot {
+  display: inline-block;
+  flex: none;
+  width: var(--ticker-dot);
+  height: var(--ticker-dot);
+  margin: 0 var(--ticker-gap);
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, var(--color-green-200), var(--color-green-300) 70%);
+}
+
+@keyframes ticker-scroll {
+  from {
+    transform: translateX(var(--ticker-start));
+  }
+  to {
+    transform: translateX(calc(var(--ticker-start) - 50%));
+  }
+}
