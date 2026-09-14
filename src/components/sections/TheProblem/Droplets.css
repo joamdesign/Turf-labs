@@ -1,0 +1,123 @@
+/* Laid over the grass band: 340px tall, bottom-aligned with the brush, above it and below the copy. */
+.drops {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  z-index: 0;
+  width: 100%;
+  height: auto;
+  pointer-events: none;
+  overflow: visible;
+}
+
+/* The cone and haze breathe very slowly, like spray density changing. */
+.drops__cone,
+.drops__haze {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: drops-breathe 9s ease-in-out infinite alternate;
+}
+
+@keyframes drops-breathe {
+  from {
+    opacity: 0.8;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Mist: each particle falls a short way, fading in and out, on its own timing. */
+.drops__particle {
+  --o: 0.6;
+  opacity: var(--o);
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: drops-fall 8s linear infinite;
+}
+
+@keyframes drops-fall {
+  0% {
+    opacity: 0;
+    transform: translate(4px, -22px);
+  }
+  15% {
+    opacity: var(--o);
+  }
+  85% {
+    opacity: calc(var(--o) * 0.8);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-6px, 26px);
+  }
+}
+
+/* Bokeh: soft glints that swell and dim. */
+.drops__glint {
+  --o: 0.8;
+  opacity: var(--o);
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: drops-glint 6s ease-in-out infinite alternate;
+}
+
+@keyframes drops-glint {
+  from {
+    opacity: calc(var(--o) * 0.5);
+    transform: scale(0.85);
+  }
+  to {
+    opacity: var(--o);
+    transform: scale(1.1);
+  }
+}
+
+/* Beads: a slow shimmer, as if catching the light. */
+.drops__bead {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: drops-shimmer 6s ease-in-out infinite alternate;
+}
+
+@keyframes drops-shimmer {
+  from {
+    opacity: 0.75;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1.04);
+  }
+}
+
+/* Resting state for static capture and reduced motion: everything visible, nothing moving. */
+html[data-static] .drops__particle,
+html[data-static] .drops__glint,
+html[data-static] .drops__bead,
+html[data-static] .drops__cone,
+html[data-static] .drops__haze {
+  animation: none;
+  transform: none;
+}
+
+html[data-static] .drops__particle,
+html[data-static] .drops__glint {
+  opacity: var(--o);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .drops__particle,
+  .drops__glint,
+  .drops__bead,
+  .drops__cone,
+  .drops__haze {
+    animation: none;
+    transform: none;
+  }
+
+  .drops__particle,
+  .drops__glint {
+    opacity: var(--o);
+  }
+}

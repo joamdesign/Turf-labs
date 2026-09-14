@@ -61,7 +61,6 @@
 .proof__pill {
   --pill-bg: var(--surface-proof);
   --pill-fg: var(--color-ink);
-  --pill-icon: var(--color-blue-500);
 
   display: inline-flex;
   align-items: center;
@@ -96,25 +95,52 @@
 }
 
 .proof__pill:hover {
-  --pill-bg: var(--color-blue-500);
+  --pill-bg: var(--color-green-400); /* #33995A */
   --pill-fg: var(--color-white);
-  --pill-icon: var(--color-white);
   scale: 1.15;
 }
 
+/*
+ * Icons (src/icons/proof.tsx) render at the artwork's own size and draw in currentColor.
+ * Resting tones are the artwork's own (Pet-friendly: #3391ca, per request): #0094da and #3391ca are not palette colours, so they
+ * stay local here rather than in tokens.css. The flag's blue is Blue 500.
+ */
 .proof__icon {
+  --icon-tone: #0094da;
+  --icon-knockout: var(--color-white); /* the flag's white field and stars */
+
   display: grid;
   place-items: center;
   flex: none;
   width: var(--pill-h);
   height: var(--pill-h);
-  color: var(--pill-icon);
+  color: var(--icon-tone);
   transition: color var(--duration-base) var(--ease-standard);
 }
 
+.proof__icon[data-icon='paw'] {
+  --icon-tone: #3391ca;
+}
+
+.proof__icon[data-icon='flag'] {
+  --icon-tone: var(--color-blue-500);
+}
+
+/* The artwork runs to the edge of its fractional viewBox (22.784 wide etc.); clipping at the box would shave the outer edge. */
 .proof__icon svg {
-  width: 22px;
-  height: 22px;
+  display: block;
+  overflow: visible;
+}
+
+.proof__icon .icon-knockout {
+  fill: var(--icon-knockout);
+  transition: fill var(--duration-base) var(--ease-standard);
+}
+
+/* On the hovered (green) pill every icon turns white; the flag's white parts take the pill's colour, so it inverts. */
+.proof__pill:hover .proof__icon {
+  --icon-tone: var(--color-white);
+  --icon-knockout: var(--pill-bg);
 }
 
 /* Text begins just inside the cap's centre line (x ≈ 98); right padding as in the mock. */

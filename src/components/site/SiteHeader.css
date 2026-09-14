@@ -112,7 +112,7 @@
   display: inline-block;
   padding: var(--space-1) 0;
   color: var(--color-ink);
-  font-size: var(--text-label-1);
+  font-size: var(--text-label-s);
   line-height: var(--leading-normal);
   transition: color var(--duration-fast) var(--ease-standard);
 }

@@ -32,7 +32,7 @@ export function FounderStory() {
             </div>
           </div>
           <figure className="founder__media">
-            <img src={founder.image.src} alt={founder.image.alt} width={1380} height={1354} decoding="async" />
+            <img src={founder.image.src} alt={founder.image.alt} width={736} height={736} decoding="async" />
           </figure>
         </div>
       </div>

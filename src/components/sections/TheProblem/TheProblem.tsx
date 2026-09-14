@@ -1,34 +1,34 @@
+import { Fragment } from 'react';
 import { problem } from '../../../content/homepage';
 import { useInView } from '../../../hooks/useInView';
-import { ReactiveTicker } from '../../ui/ReactiveTicker';
+import { Droplets } from './Droplets';
 import './TheProblem.css';
 
 /**
- * Section 02 — The problem.
- * Full-width reactive ticker headline, then a centred explanation and a bold takeaway.
+ * Section 02 — The problem (V2).
+ * Centred Grass Green headline, explanation and bold takeaway, with the grass brush running
+ * across the bottom of the section; section 03's card overlaps the grass with rounded corners.
  * Sits on the page gradient as it fades from Light Blue toward Grey 100.
- * The explanation rises into place when it first enters view, on the same weighted curve
- * as the hero headline.
  */
 export function TheProblem() {
-  const heading = useInView<HTMLDivElement>(0.4);
+  const heading = useInView<HTMLHeadingElement>(0.4);
   const copy = useInView<HTMLParagraphElement>(0.4);
   const takeaway = useInView<HTMLParagraphElement>(0.4);
 
   return (
     <section className="problem" aria-labelledby="problem-heading" data-section="02" data-screenshot="02-problem">
-      {/* ReactiveTicker does not forward a ref, so the reveal goes on a wrapper. */}
-      <div ref={heading.ref} className={`text-reveal${heading.inView ? ' is-revealed' : ''}`}>
-        <ReactiveTicker
-          id="problem-heading"
-          text={problem.headline}
-          lines={problem.headlineLines}
-          scroll={false}
-          revealImage="/images/turf-blades.jpg"
-          revealRadius={150}
-          className="problem__headline"
-        />
-      </div>
+      <h2
+        ref={heading.ref}
+        id="problem-heading"
+        className={`problem__headline text-reveal${heading.inView ? ' is-revealed' : ''}`}
+      >
+        {problem.headlineLines.map((line, index) => (
+          <Fragment key={line}>
+            {index > 0 && <br />}
+            {line}
+          </Fragment>
+        ))}
+      </h2>
       <div className="container problem__body">
         <p ref={copy.ref} className={`problem__copy text-reveal${copy.inView ? ' is-revealed' : ''}`}>
           {problem.body}
@@ -37,6 +37,8 @@ export function TheProblem() {
           {problem.takeaway}
         </p>
       </div>
+      <img className="problem__grass" src="/textures/grass-brush.webp" alt="" width={1440} height={817} decoding="async" />
+      <Droplets />
     </section>
   );
 }

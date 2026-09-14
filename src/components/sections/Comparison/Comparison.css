@@ -177,9 +177,9 @@
   height: 80px;
 }
 
-/* Column headers: Label 1 (14px Inter Tight Regular, line-height normal), tracked caps as in the mock. */
+/* Column headers: Label S (14px Inter Tight Regular, line-height normal), tracked caps as in the mock. */
 .compare__col {
-  font-size: var(--text-label-1);
+  font-size: var(--text-label-s);
   font-weight: var(--weight-body);
   line-height: var(--leading-normal);
   letter-spacing: 0.08em;
@@ -193,6 +193,13 @@
 
 .compare__col--them {
   color: var(--color-muted-500);
+}
+
+/* OdorRx wordmark (logos/odor rx logo.svg) in place of the column's text label, at its artwork size. */
+.compare__logo {
+  display: block;
+  width: 121px;
+  height: auto;
 }
 
 /* Inside the raised card the vertical dividers go; the row separators stay, softer. */
@@ -222,4 +229,26 @@
 
 .compare__table tbody td {
   color: var(--color-ink-body);
+}
+
+/* Mark + text. Icons are decorative (aria-hidden): the cell text already says what each one means. */
+.compare__cell {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+}
+
+/* 20px circle centred on the first line (18px × 1.45 ≈ 26px line box), so wrapped cells keep it at the top. */
+.compare__mark {
+  flex: none;
+  margin-top: 3px;
+}
+
+.compare__mark--yes {
+  color: var(--color-green-400);
+}
+
+/* Not a palette colour: the system has no red yet. */
+.compare__mark--no {
+  color: #dc2626;
 }

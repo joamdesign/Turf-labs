@@ -1,11 +1,30 @@
 /*
- * Vertical rhythm measured from "Sections/02 the problem .png" (section-local y):
- *   headline 2 lines, caps 107–274 on a 92px pitch · paragraph 325–410 (3 lines, 31px pitch) · takeaway 487–519
+ * Vertical rhythm measured from "Sections/02 the problem.png" V2 (section-local y, 1440 × 837):
+ *   headline 2 lines, caps 94–261 · paragraph 315–400 (3 lines, 31px pitch) · takeaway 489–521
+ *   grass brush: full width, bottom-aligned, tips from y ≈ 518 (centre) / 556 (edges), bottom at 817
+ * In the full-page reference section 03's white card overlaps the bottom ~50px of the grass.
  */
 .problem {
   position: relative;
   padding-top: 96px;
-  padding-bottom: 176px;
+  padding-bottom: 316px; /* takeaway bottom ≈ 521 → section 837 */
+  overflow: hidden;
+}
+
+.problem__headline,
+.problem__body {
+  position: relative;
+  z-index: 1; /* copy reads over the grass tips */
+}
+
+/* Static headline in Grass Green 500 (#008031), Headline 2 size, centred. */
+.problem__headline {
+  padding-inline: var(--grid-margin);
+  color: var(--color-green-500);
+  font-size: var(--text-h2);
+  line-height: var(--leading-h2);
+  letter-spacing: var(--tracking-display);
+  text-align: center;
 }
 
 .problem__body {
@@ -27,11 +46,22 @@
 
 .problem__takeaway {
   max-width: 820px;
-  margin-top: var(--space-16);
+  margin-top: var(--space-20);
   color: var(--color-ink);
   font-size: var(--text-2xl);
   font-weight: var(--weight-headline);
   line-height: 1.2;
   letter-spacing: -0.01em;
   text-wrap: balance;
+}
+
+/* Grass brush across the bottom, shown as supplied: the updated reference keeps the tips crisp. */
+.problem__grass {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  z-index: 0;
+  width: 100%;
+  height: auto;
+  pointer-events: none;
 }

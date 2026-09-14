@@ -71,7 +71,7 @@
   --page-gradient-mid: #e9f2f8;
   --page-gradient-end: var(--color-grey-100);
   --page-gradient-mid-stop: 1600px; /* hero end */
-  --page-gradient-end-stop: 2290px; /* section 02 end */
+  --page-gradient-end-stop: 2200px; /* where section 03's card starts */
   --surface-raised: var(--color-grey-200);
   --surface-dark: var(--color-deep-blue-500);
   --surface-proof: var(--color-blue-100);
@@ -92,7 +92,8 @@
   --text-md: 1.25rem; /* 20px */
   --text-sm: 1.125rem; /* 18px */
   --text-xs: 1rem; /* 16px */
-  --text-label-1: 0.875rem; /* 14px */
+  --text-label-xl: 1.5rem; /* 24px — Inter Tight Bold; same size as body XL and Headline 6, a separate role */
+  --text-label-s: 0.875rem; /* 14px */
 
   --weight-body: 400;
   --weight-medium: 500;

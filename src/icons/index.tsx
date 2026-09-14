@@ -35,62 +35,6 @@ const lineIconProps = {
   focusable: false,
 } as const;
 
-/** Flask: third-party lab testing. */
-export function LabIcon({ size = 24, ...rest }: IconProps) {
-  return (
-    <svg width={size} height={size} {...lineIconProps} {...rest}>
-      <path d="M9 3h6" />
-      <path d="M10 3v6.2L4.9 18a2 2 0 0 0 1.7 3h10.8a2 2 0 0 0 1.7-3L14 9.2V3" />
-      <path d="M7.5 15h9" />
-    </svg>
-  );
-}
-
-/** Flag: made in the USA. */
-export function FlagIcon({ size = 24, ...rest }: IconProps) {
-  return (
-    <svg width={size} height={size} {...lineIconProps} {...rest}>
-      <path d="M5 21V4" />
-      <path d="M5 4h12.5l-2.5 4.5 2.5 4.5H5" />
-    </svg>
-  );
-}
-
-/** Paw print: pet-friendly. */
-export function PawIcon({ size = 24, ...rest }: IconProps) {
-  return (
-    <svg width={size} height={size} {...lineIconProps} {...rest}>
-      <circle cx="8" cy="7.5" r="1.9" />
-      <circle cx="16" cy="7.5" r="1.9" />
-      <circle cx="4.5" cy="12.5" r="1.7" />
-      <circle cx="19.5" cy="12.5" r="1.7" />
-      <path d="M12 12.5c-2.6 0-5 2.6-5 4.9 0 1.6 1.1 2.6 2.6 2.6.9 0 1.6-.5 2.4-.5s1.5.5 2.4.5c1.5 0 2.6-1 2.6-2.6 0-2.3-2.4-4.9-5-4.9Z" />
-    </svg>
-  );
-}
-
-/** Spray bottle: ready to use, no dilution. */
-export function SprayIcon({ size = 24, ...rest }: IconProps) {
-  return (
-    <svg width={size} height={size} {...lineIconProps} {...rest}>
-      <path d="M10 9h5a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2v-6.5A3.5 3.5 0 0 1 10 9Z" />
-      <path d="M10 9V6h4v3" />
-      <path d="M10 6h5.5" />
-      <path d="M3.5 5.5h1.2M3.5 8h1.2M3.5 3h1.2" />
-    </svg>
-  );
-}
-
-/** Award ribbon: trusted by experts. */
-export function AwardIcon({ size = 24, ...rest }: IconProps) {
-  return (
-    <svg width={size} height={size} {...lineIconProps} {...rest}>
-      <circle cx="12" cy="9" r="5.5" />
-      <path d="m8.8 13.6-1.8 7.4 5-2.6 5 2.6-1.8-7.4" />
-    </svg>
-  );
-}
-
 export function ArrowLeftIcon({ size = 22, ...rest }: IconProps) {
   return (
     <svg width={size} height={size} {...lineIconProps} strokeWidth={2} {...rest}>
@@ -172,6 +116,34 @@ export function ArrowUpRightIcon({ size = 18, ...rest }: IconProps) {
     >
       <path d="M7 17 17 7" />
       <path d="M8 7h9v9" />
+    </svg>
+  );
+}
+
+/*
+ * Filled circle glyphs for the comparison table, from Assets/Icons/checkmark.svg and close.svg.
+ * The two files draw their circles at different scales (r 6 in a 16 box, r 10 in a 24 box), so
+ * each viewBox is cropped to its circle: at the same size they render as equal circles.
+ */
+
+/** Check in a filled circle: an OdorRx advantage. */
+export function CheckCircleIcon({ size = 20, ...rest }: IconProps) {
+  return (
+    <svg width={size} height={size} viewBox="2 2 12 12" fill="currentColor" aria-hidden="true" focusable="false" {...rest}>
+      <path d="M8,2 C11.3137085,2 14,4.6862915 14,8 C14,11.3137085 11.3137085,14 8,14 C4.6862915,14 2,11.3137085 2,8 C2,4.6862915 4.6862915,2 8,2 Z M10.1202768,6.16398102 L7.24952684,9.04242005 L5.85355339,7.64644661 C5.65829124,7.45118446 5.34170876,7.45118446 5.14644661,7.64644661 C4.95118446,7.84170876 4.95118446,8.15829124 5.14644661,8.35355339 L6.89644661,10.1035534 C7.09189344,10.2990002 7.40884066,10.2987883 7.60402592,10.1030802 L10.8283287,6.87014147 C11.0233295,6.67461836 11.0229061,6.35803615 10.827383,6.16303532 C10.6318599,5.9680345 10.3152776,5.9684579 10.1202768,6.16398102 Z" />
+    </svg>
+  );
+}
+
+/** Cross in a filled circle: a competitor shortfall. */
+export function CloseCircleIcon({ size = 20, ...rest }: IconProps) {
+  return (
+    <svg width={size} height={size} viewBox="2 2 20 20" fill="currentColor" aria-hidden="true" focusable="false" {...rest}>
+      <path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10Zm3.536-13.536a1 1 0 0 1 0 1.415L13.414 12l2.122 2.121a1 1 0 1 1-1.415 1.415L12 13.414l-2.121 2.122a1 1 0 1 1-1.415-1.415L10.586 12 8.464 9.879A1 1 0 1 1 9.88 8.464L12 10.586l2.121-2.122a1 1 0 0 1 1.415 0Z"
+      />
     </svg>
   );
 }

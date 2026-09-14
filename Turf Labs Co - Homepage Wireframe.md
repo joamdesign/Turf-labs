@@ -104,7 +104,7 @@ You are launching with no reviews, no press, and no customer history. This strip
 | Element          | Copy                                                                                                                                                                                                                                 |
 | ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | Headline         | The smell lives under your turf                                                                                                                                                                                                      |
-| Body paragraph 1 | Odors don’t sit on top of your turf. They drain through the fibers and settles into the infill underneath. When that layer gets wet again, from rain, from the hose, from a humid morning, the odor comes back stronger than before. |
+| Body paragraph 1 |Pet odor doesn't stay on the surface. Urine drains through the turf fibers and settles into the infill and base underneath. Add heat, moisture or rain, and those trapped odors can come right back.
 | Body paragraph 2 | It’s why the yard can smell worse right after you rinse it.                                                                                                                                                                          |
 
 
@@ -129,7 +129,7 @@ This is the "oh, that's why" moment, and without it the comparison section later
 | ------------------- | ----------------------------------------------- |
 | Headline            | Small yard or big space? We’ve got you covered. |
 | Group label 1       | For your yard                                   |
-| Group label 2       | For professionals                               |
+| Group label 2       | For professionals & Commercial Use                              |
 | CTA [for each tile] | Add to Cart                                     |
 
 
@@ -178,8 +178,8 @@ Bulk now sits in this section as a second tile group rather than as a footer lin
 
 | Element         | Copy                                                                       |
 | --------------- | -------------------------------------------------------------------------- |
-| Headline        | Superior formulation. Different approach.                                  |
-| Intro line      | There’s more than one way to tackle turf odor. Here’s how OdorRx compares. |
+| Headline        | Not another enzyme cleaner.                                 |
+| Intro line      | OdorRx takes a different approach to artificial turf odor. |
 | Column header 1 | OdorRx                                                                     |
 | Column header 2 | Enzyme cleaners                                                            |
 
@@ -220,11 +220,11 @@ The section is positioned after the size selection and before the founder story 
 
 | Element          | Copy                                                                                                                                                                                            |
 | ---------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Headline         | It all started in my own backyard                                                                                                                                                               |
-| Body paragraph 1 | I installed turf three years ago to enjoy my yard with my three beautiful kids and my dog. Although I never regretted my decision, I quickly learned how hard it was to keep it smelling clean. |
-| Body paragraph 2 | I spent close to $1,000 trying cleaner after cleaner, but the odor always seemed to come back.                                                                                                  |
-| Body paragraph 3 | Eventually, I started looking into what worked differently. That frustration became the reason we created OdorRx: something effective, and made specifically for turf odor.                     |
-| Attribution      | Matt Hynek, CEO at Turf Labs Co.                                                                                                                                                                |
+| Headline         | It started with a problem in my own backyard.                                                                                                                                                              |
+| Body paragraph 1 | After installing artificial turf at my home, I quickly learned how difficult pet odor could be to manage. I tried the products homeowners are usually told to use, but I wasn't satisfied with the results.
+| Body paragraph 2 | That search eventually led us to experienced chemists who had spent years developing turf-cleaning chemistry.
+| Body paragraph 3 | Together, we saw an opportunity to bring a more effective, easy-to-use solution directly to homeowners. That became Turf Labs — and OdorRx
+| Attribution      | Matt Hynek, Co-Founder, Turf Labs Co.                                                                                                                                                              |
 
 
 ### Why This Section Exists
@@ -248,7 +248,7 @@ A real founder with a real face outperforms stock photography based sites. It al
 
 | Element                     | Copy                                                               |
 | --------------------------- | ------------------------------------------------------------------ |
-| Headline                    | What users say                                                     |
+| Headline                    | Real Turf. Real Results.                                                    |
 | Star rating [for each card] | 5 stars                                                            |
 | Testimonial 1               | “[Placeholder] Testimonial 1 — early tester quote, 2–3 sentences.” |
 | Testimonial 1 - Attribution | [Name], [City]                                                     |

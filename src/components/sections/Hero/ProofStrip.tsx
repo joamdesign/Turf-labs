@@ -1,18 +1,18 @@
 import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react';
 import type { ProofIcon } from '../../../content/homepage';
 import { isStaticMode } from '../../../hooks/useStaticMode';
-import { AwardIcon, FlagIcon, LabIcon, PawIcon, SprayIcon } from '../../../icons';
+import { ExpertsIcon, PetFriendlyIcon, ReadyToUseIcon, TestedIcon, UsaFlagIcon } from '../../../icons/proof';
 import './ProofStrip.css';
 
 type Item = { label: string; icon: ProofIcon };
 type Props = { items: Item[] };
 
 const ICONS: Record<ProofIcon, ReactNode> = {
-  lab: <LabIcon />,
-  flag: <FlagIcon />,
-  paw: <PawIcon />,
-  spray: <SprayIcon />,
-  award: <AwardIcon />,
+  lab: <TestedIcon />,
+  flag: <UsaFlagIcon />,
+  paw: <PetFriendlyIcon />,
+  spray: <ReadyToUseIcon />,
+  award: <ExpertsIcon />,
 };
 
 /**
@@ -46,7 +46,7 @@ export function ProofStrip({ items }: Props) {
     <ul className="proof__list" aria-hidden={hidden || undefined}>
       {items.map((item, index) => (
         <li key={item.label} className="proof__pill" style={{ '--i': index } as CSSProperties}>
-          <span className="proof__icon" aria-hidden="true">
+          <span className="proof__icon" data-icon={item.icon} aria-hidden="true">
             {ICONS[item.icon]}
           </span>
           <span className="proof__label">{item.label}</span>

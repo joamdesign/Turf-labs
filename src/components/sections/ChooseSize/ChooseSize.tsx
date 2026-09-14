@@ -15,7 +15,9 @@ export function ChooseSize() {
 
   return (
     <section id="shop" className="sizes" aria-labelledby="sizes-heading" data-section="03" data-screenshot="03-sizes">
-      <div className="container">
+      <div className="container sizes__inner">
+        {/* Rotating "RTU synthetic turf cleaner" sticker, top-right of the headline row (updated mock). */}
+        <img className="sizes__sticker" src="/brand/sticker.svg" alt="" width={179} height={179} decoding="async" />
         <h2
           ref={heading.ref}
           id="sizes-heading"
@@ -31,13 +33,13 @@ export function ChooseSize() {
 
         {sizes.groups.map((group) => (
           <div className="sizes__group" key={group.id}>
-            <Eyebrow tone="green" id={`sizes-${group.id}`}>
+            <Eyebrow tone="green" className="sizes__group-label" id={`sizes-${group.id}`}>
               {group.label}
             </Eyebrow>
             <ul className="sizes__grid grid" aria-labelledby={`sizes-${group.id}`}>
               {group.tiles.map((tile) => (
                 <li key={tile.id} className="tile">
-                  <Tile tile={tile} />
+                  <Tile tile={tile} cta={group.cta} />
                 </li>
               ))}
             </ul>
@@ -53,7 +55,7 @@ export function ChooseSize() {
  * base render lifts and zooms) and a solid "Add to Cart" pill rises in at the bottom of the box.
  * Keyboard focus inside the card shows the same state, so the button is reachable without a pointer.
  */
-function Tile({ tile }: { tile: SizeTile }) {
+function Tile({ tile, cta }: { tile: SizeTile; cta: { label: string; href?: string } }) {
   const copy = useInView<HTMLDivElement>(0.4);
 
   return (
@@ -71,21 +73,28 @@ function Tile({ tile }: { tile: SizeTile }) {
         {/* Overlaid on the image, revealed on hover or keyboard focus. Every card says
             "Add to Cart", so the label names the size for screen readers. */}
         <div className="tile__actions">
-          <Button className="tile__cta" aria-label={`${sizes.cta}: ${tile.label}`}>
-            {sizes.cta}
-          </Button>
+          {cta.href ? (
+            <Button href={cta.href} className="tile__cta" aria-label={`${cta.label}: ${tile.label}`}>
+              {cta.label}
+            </Button>
+          ) : (
+            <Button className="tile__cta" aria-label={`${cta.label}: ${tile.label}`}>
+              {cta.label}
+            </Button>
+          )}
         </div>
       </div>
       {/* Copy row per the updated mock: label + use case (+ coverage) left, price right. Enters as one block. */}
+      {/* Copy per the updated mock: label, use case, then price left / coverage right. Enters as one block. */}
       <div ref={copy.ref} className={`tile__copy text-reveal${copy.inView ? ' is-revealed' : ''}`}>
-        <div className="tile__text">
-          <h3 id={`tile-${tile.id}`} className="tile__title">
-            {tile.label}
-          </h3>
-          <p className="tile__use">{tile.useCase}</p>
-          <p className="tile__coverage">{tile.coverage}</p>
-        </div>
-        <p className="tile__price">{tile.price}</p>
+        <h3 id={`tile-${tile.id}`} className="tile__title">
+          {tile.label}
+        </h3>
+        <p className="tile__use">{tile.useCase}</p>
+        <p className="tile__meta">
+          <span className="tile__price">{tile.price}</span>
+          <span className="tile__coverage">{tile.coverage}</span>
+        </p>
       </div>
     </article>
   );

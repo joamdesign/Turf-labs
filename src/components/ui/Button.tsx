@@ -10,7 +10,7 @@ type CommonProps = {
   variant?: Variant;
   /** `md` is the 58px hero control; `sm` is a 48px control for tiles and dense rows. */
   size?: Size;
-  /** Trailing Grass Green 100 circle carrying an arrow, as drawn in the hero reference. */
+  /** Trailing circle carrying an arrow (Grass Green 100). */
   arrow?: boolean;
   children: ReactNode;
   className?: string;

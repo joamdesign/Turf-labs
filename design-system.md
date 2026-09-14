@@ -120,7 +120,7 @@ ramp:
 
 ⚠️ Grass Green `100` — the announcement bar surface — is the first background where body ink
 falls below AAA. At 6.94 it clears AA comfortably and is fine for the 14 px
-[Label 1](#labels--inter-tight) the bar uses, but it is no longer in the AAA band. Headline ink
+[Label S](#labels--inter-tight) the bar uses, but it is no longer in the AAA band. Headline ink
 on the same surface is 11.76 if a stricter margin is wanted.
 
 **Set body copy with alpha, not the flattened hex.** `rgb(10 34 77 / 0.8)` composites correctly
@@ -268,15 +268,33 @@ therefore renders at 1.45, not at `normal`.
 
 ### Labels — Inter Tight
 
-Sits below the body scale. For UI chrome rather than reading copy.
+For UI chrome rather than reading copy.
+
+**Named by size, not by number:** XL, L, M, S, XS, largest to smallest — the same convention as
+the body scale. Only XL and S are specified so far; L and M are left free for sizes between them,
+and XS for anything below 14 px.
 
 | Role | Font | Weight | Line height | Size | rem @16 | CSS `line-height` |
 | --- | --- | --- | --- | --- | --- | --- |
-| Label 1 | Inter Tight | Regular (400) | Normal | 14 px | 0.875rem | `normal` |
-| Label 1 Bold | Inter Tight | Bold (700) | Normal | 14 px | 0.875rem | `normal` |
+| Label XL | Inter Tight | Bold (700) | *not specified* | 24 px | 1.5rem | `normal` (until set) |
+| Label L | — | — | — | — | — | *unassigned* |
+| Label M | — | — | — | — | — | *unassigned* |
+| Label S | Inter Tight | Regular (400) | Normal | 14 px | 0.875rem | `normal` |
+| Label S Bold | Inter Tight | Bold (700) | Normal | 14 px | 0.875rem | `normal` |
 
-Label 1 is a size role, not a single weight — the two variants share every metric and differ
-only in weight. Bold is the first non-Regular weight in use anywhere in the system.
+Label S is a size role, not a single weight — the two variants share every metric and differ
+only in weight.
+
+**Label XL is 24 px, the same size as body XL and Headline 6.** All three are separate roles and
+separate tokens (`--text-label-xl`, `--text-xl`, `--text-h6`). Label XL is Inter Tight **Bold**;
+body XL is Inter Tight Regular; Headline 6 is Helvetica Bold. Label XL and Headline 6 are both
+bold at 24 px, so only the family tells them apart — keep that in mind when choosing between
+them. Its line height was not specified; it follows Label S (`normal`) until it is.
+
+**In use:** Label XL — the size-group labels in Choose your size, "For your yard" and "For
+professionals" (`.sizes__group-label`), in Grass Green `500`.
+
+**Renamed.** Label S was previously "Label 1" (token `--text-label-1`, now `--text-label-s`).
 
 **In use:**
 
@@ -296,7 +314,7 @@ At 14 px, Bold does not reach the WCAG large-text threshold (that starts at 14 p
 
 - Headlines 3–5 — the gap between Headline 6 (24 px) and Headline 2 (80 px) is still open
 - Weight groups for the body scale — Inter Tight is variable, so Medium / Semibold / Bold are
-  available. Bold is already in use at [Label 1](#labels--inter-tight); the body sizes are
+  available. Bold is already in use at [Label S and Label XL](#labels--inter-tight); the body sizes are
   still Regular-only.
 - Letter-spacing, for headlines especially — Helvetica Bold at 96 px needs negative tracking
 - Responsive steps — 96 px is roughly a third of a 320 px viewport
@@ -336,8 +354,9 @@ Sizes as given. `--leading-auto` is a placeholder for the unresolved `Auto` valu
   --text-sm: 1.125rem; /* 18px */
   --text-xs: 1rem;     /* 16px */
 
-  /* Labels — Inter Tight Regular */
-  --text-label-1: 0.875rem; /* 14px */
+  /* Labels — Inter Tight, named by size (XL, L, M, S, XS) */
+  --text-label-xl: 1.5rem;  /* 24px, Bold — separate from --text-xl and --text-h6 */
+  --text-label-s:  0.875rem; /* 14px */
 
   --weight-body:     400;
   --weight-medium:   500;
@@ -345,7 +364,7 @@ Sizes as given. `--leading-auto` is a placeholder for the unresolved `Auto` valu
   --weight-headline: var(--weight-bold);
 
   --leading-h1:     1;      /* 100% */
-  --leading-normal: normal; /* Label 1 — specified as normal, left unresolved */
+  --leading-normal: normal; /* Label S — specified as normal, left unresolved */
   --leading-auto:   normal; /* replace with a number before build */
 }
 ```
@@ -498,7 +517,7 @@ substituting a symmetrical ease loses it.
 lead copy, takeaways, and card copy.
 
 Does not apply to controls (buttons, form fields, nav), to UI chrome
-([Label 1](#labels--inter-tight)), or to elements with their own entrance defined below.
+([labels](#labels--inter-tight)), or to elements with their own entrance defined below.
 
 ### Exception — the hero headline
 

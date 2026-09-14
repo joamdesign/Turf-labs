@@ -1,4 +1,4 @@
-import { useCallback, useState, type KeyboardEvent } from 'react';
+import { Fragment, useCallback, useState, type KeyboardEvent } from 'react';
 import { testimonials } from '../../../content/homepage';
 import { useInView } from '../../../hooks/useInView';
 import { ArrowLeftIcon, ArrowRightIcon, StarIcon } from '../../../icons';
@@ -38,7 +38,12 @@ export function Testimonials() {
             id="reviews-heading"
             className={`reviews__headline text-reveal${heading.inView ? ' is-revealed' : ''}`}
           >
-            {testimonials.headline}
+            {testimonials.headlineLines.map((line, i) => (
+              <Fragment key={line}>
+                {i > 0 && <br />}
+                {line}
+              </Fragment>
+            ))}
           </h2>
           <div className="reviews__media">
             {/* Swaps with the quote; keyed so the crossfade re-runs on each change. */}

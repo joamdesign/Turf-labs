@@ -1,6 +1,7 @@
 import { Fragment } from 'react';
 import { comparison } from '../../../content/homepage';
 import { useInView } from '../../../hooks/useInView';
+import { CheckCircleIcon, CloseCircleIcon } from '../../../icons';
 import './Comparison.css';
 
 /**
@@ -49,7 +50,14 @@ export function Comparison() {
               <tr>
                 <td aria-hidden="true" />
                 <th scope="col" className="compare__col compare__col--us">
-                  {comparison.columns[0]}
+                  {/* The wordmark stands in for the column name; alt keeps it announced as "OdorRx". */}
+                  <img
+                    className="compare__logo"
+                    src="/brand/odorrx-logo.svg"
+                    alt={comparison.columns[0]}
+                    width={121}
+                    height={34}
+                  />
                 </th>
                 <th scope="col" className="compare__col compare__col--them">
                   {comparison.columns[1]}
@@ -62,8 +70,18 @@ export function Comparison() {
                   <th scope="row" className="compare__label">
                     {row.label}
                   </th>
-                  <td>{row.odorrx}</td>
-                  <td>{row.others}</td>
+                  <td>
+                    <span className="compare__cell">
+                      <CheckCircleIcon className="compare__mark compare__mark--yes" />
+                      {row.odorrx}
+                    </span>
+                  </td>
+                  <td>
+                    <span className="compare__cell">
+                      <CloseCircleIcon className="compare__mark compare__mark--no" />
+                      {row.others}
+                    </span>
+                  </td>
                 </tr>
               ))}
             </tbody>

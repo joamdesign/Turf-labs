@@ -1,5 +1,5 @@
 .btn {
-  --btn-bg: var(--color-deep-blue-500);
+  --btn-bg: var(--color-blue-500);
   --btn-fg: var(--color-white);
   --btn-accent-bg: var(--color-green-100);
   --btn-accent-fg: var(--color-deep-blue-500);
@@ -46,12 +46,9 @@
   transition: transform var(--duration-base) var(--ease-out);
 }
 
-.btn:hover {
-  background: var(--color-blue-500);
-}
-
-.btn:hover .btn__accent {
-  background: var(--color-green-200);
+/* Primary: Light Blue 500 → Deep Blue 500. The arrow circle stays Grass Green 100 in both states; the arrow nudges. */
+.btn--primary:hover {
+  --btn-bg: var(--color-deep-blue-500);
 }
 
 .btn:hover .btn__accent svg {
@@ -79,5 +76,6 @@
 }
 
 .btn--secondary:hover {
-  background: var(--color-grey-200);
+  --btn-bg: var(--color-grey-200);
+  --btn-accent-bg: var(--color-green-200);
 }

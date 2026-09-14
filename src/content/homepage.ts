@@ -32,7 +32,7 @@ export const hero = {
 export const problem = {
   headline: 'The smell lives under your turf',
   headlineLines: ['The smell lives', 'under your turf'],
-  body: 'Odors don’t sit on top of your turf. They drain through the fibers and settles into the infill underneath. When that layer gets wet again, from rain, from the hose, from a humid morning, the odor comes back stronger than before.',
+  body: 'Pet odor doesn’t stay on the surface. Urine drains through the turf fibers and settles into the infill and base underneath. Add heat, moisture or rain, and those trapped odors can come right back.',
   takeaway: 'It’s why the yard can smell worse right after you rinse it.',
 };
 
@@ -57,6 +57,7 @@ export const sizes = {
     {
       id: 'yard',
       label: 'For your yard',
+      cta: { label: 'Add to Cart' },
       tiles: [
         {
           id: '1-gallon',
@@ -92,7 +93,8 @@ export const sizes = {
     },
     {
       id: 'professionals',
-      label: 'For professionals',
+      label: 'For professionals & Commercial Use',
+      cta: { label: 'Contact us', href: '#contact' },
       tiles: [
         {
           id: '55-gallon-drum',
@@ -120,9 +122,9 @@ export const sizes = {
 };
 
 export const comparison = {
-  headlineLines: ['Superior', 'formulation.', 'Different approach.'],
-  headline: 'Superior formulation. Different approach.',
-  intro: 'There’s more than one way to tackle turf odor. Here’s how OdorRx compares.',
+  headlineLines: ['Not another', 'enzyme cleaner.'],
+  headline: 'Not another enzyme cleaner.',
+  intro: 'OdorRx takes a different approach to artificial turf odor.',
   columns: ['OdorRx', 'Enzyme cleaners'],
   rows: [
     { label: 'How it works', odorrx: 'Oxidation-based. Immediate action.', others: 'Bacteria and enzymes. Works over time.' },
@@ -134,20 +136,21 @@ export const comparison = {
 };
 
 export const founder = {
-  headline: 'It all started in my own backyard',
+  headline: 'It started with a problem in my own backyard.',
   paragraphs: [
-    'I installed turf three years ago to enjoy my yard with my three beautiful kids and my dog. Although I never regretted my decision, I quickly learned how hard it was to keep it smelling clean.',
-    'I spent close to $1,000 trying cleaner after cleaner, but the odor always seemed to come back.',
-    'Eventually, I started looking into what worked differently. That frustration became the reason we created OdorRx: something effective, and made specifically for turf odor.',
+    'After installing artificial turf at my home, I quickly learned how difficult pet odor could be to manage. I tried the products homeowners are usually told to use, but I wasn’t satisfied with the results.',
+    'That search eventually led us to experienced chemists who had spent years developing turf-cleaning chemistry.',
+    'Together, we saw an opportunity to bring a more effective, easy-to-use solution directly to homeowners. That became Turf Labs — and OdorRx.',
   ],
   name: 'Matt Hynek',
-  title: 'CEO at Turf Labs Co.',
-  // Stand-in cropped from the section mock until the original photograph is supplied.
-  image: { src: '/images/founder-turf.jpg', alt: 'A hand holding a square of turf with soil, lifted from a lawn' },
+  title: 'Co-Founder, Turf Labs Co.',
+  image: { src: '/images/founder-turf.webp', alt: 'Hands unrolling a roll of artificial turf onto a lawn' },
 };
 
 export const testimonials = {
-  headline: 'What users say',
+  headline: 'Real Turf. Real Results.',
+  // One sentence per line; left to wrap, the column breaks it as "Real Turf. Real / Results."
+  headlineLines: ['Real Turf.', 'Real Results.'],
   // Placeholder quotes: realistic in shape and subject, to be replaced with approved early-tester reviews.
   // Images are turf crops cut from the section 05 photograph until customer or lifestyle photos are supplied.
   items: [

@@ -13,12 +13,18 @@
    * once the tiles snapped to the grid (440/670) and the card gained its 16px inset and border,
    * the same ratios resolved to two different heights and the groups stopped matching.
    */
-  --tile-media-h: 443px; /* the updated mock: 369 × 443 image box in a 407 × 558 card */
+  --tile-media-h: 417px; /* the 2026-09-14 mock: 402 × 417 image box, no card frame */
 
   position: relative;
+  z-index: 2; /* the card overlaps the grass at the bottom of section 02 */
+  margin-top: -48px; /* the reference shows ~250px of grass above the card */
   padding: var(--space-24) 0 var(--space-32);
   background: var(--color-white);
   border-radius: var(--radius-xl) var(--radius-xl) 0 0; /* the sky of section 04 butts up square underneath */
+}
+
+.sizes__inner {
+  position: relative;
 }
 
 .sizes__headline {
@@ -26,8 +32,40 @@
   text-wrap: balance;
 }
 
+/*
+ * Sticker (Assets/Icons/sticker.svg), measured from "Sections/03 choose your size.png": the
+ * green ring is 176px across, 72px in from the page's right edge, its top 9px above the
+ * headline's cap height. The artwork's ring fills 176.7 of its 179 box, so the image renders at
+ * its natural 179px. `right` is measured from the container's outer edge, which is the page edge
+ * (the container's 40px gutter is padding), so 70px puts the ring 72px in. `top: 5px` lands the
+ * ring 9px above the caps (the 80px headline's cap top sits ~15px below its line box).
+ * Spins slowly and continuously; the global static/reduced-motion rules stop it.
+ */
+.sizes__sticker {
+  position: absolute;
+  top: 5px;
+  right: 70px;
+  width: 179px;
+  height: 179px;
+  pointer-events: none;
+  animation: sizes-sticker-spin 28s linear infinite;
+}
+
+@keyframes sizes-sticker-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 .sizes__group {
   margin-top: 72px;
+}
+
+/* Label XL per design-system.md: Inter Tight Bold 24px, line height normal (unspecified). */
+.sizes__group-label {
+  font-size: var(--text-label-xl);
+  font-weight: var(--weight-bold);
+  line-height: var(--leading-normal);
 }
 
 .sizes__group + .sizes__group {
@@ -48,19 +86,11 @@
   grid-column: span 4;
 }
 
+/* No frame in the 2026-09-14 mock: the image box is the card's top, copy sits below it. */
 .tile__card {
   display: flex;
   flex-direction: column;
   height: 100%;
-  padding: var(--space-5); /* 20px inset, as the mock draws it */
-  border: 1px solid var(--color-deep-blue-100);
-  border-radius: var(--radius-md);
-  transition: border-color var(--duration-base) var(--ease-standard);
-}
-
-.tile__card:hover,
-.tile__card:focus-within {
-  border-color: var(--color-deep-blue-200);
 }
 
 /* ---------- Media ---------- */
@@ -70,7 +100,7 @@
   place-items: center;
   height: var(--tile-media-h);
   padding: var(--space-8);
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-md);
   background: var(--surface-raised);
   overflow: hidden;
   isolation: isolate;
@@ -190,29 +220,15 @@
   transform: translateY(-8px) scale(1.05);
 }
 
-/* ---------- Copy ---------- */
-/*
- * Flex, not a plain block: the card is a flex column, so .tile__title's margin-top used to
- * sit against the card. Wrapping it in a block would let that margin collapse through the
- * wrapper and change the spacing; a flex context keeps it exactly where it was.
- */
+/* ---------- Copy (mock: title 32px below the box, use case, then price left / coverage right) ---------- */
 .tile__copy {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-4);
-  margin-top: var(--space-5);
-}
-
-.tile__text {
-  display: flex;
   flex-direction: column;
-  min-width: 0;
 }
 
 /* Headline 6 per design-system.md: Helvetica Bold 24px. */
 .tile__title {
-  margin-top: 0;
+  margin-top: var(--space-8);
   font-family: var(--font-display);
   font-size: var(--text-h6);
   font-weight: var(--weight-headline);
@@ -228,10 +244,20 @@
   color: var(--color-ink-body);
 }
 
+.tile__meta {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-4);
+  margin-top: var(--space-5);
+  font-size: var(--text-xs);
+}
+
+.tile__price {
+  color: var(--color-ink);
+}
+
 .tile__coverage {
-  margin-top: var(--space-1);
-  font-size: var(--text-label-1);
-  line-height: var(--leading-normal);
+  flex: none;
   color: var(--color-ink-body);
 }
 
@@ -256,19 +282,6 @@
 .tile__card:focus-within .tile__actions {
   opacity: 1;
   transform: translateY(0);
-}
-
-/* Price, right of the copy row: large and bold as the mock draws it. Placeholder strings may wrap. */
-.tile__price {
-  flex: none;
-  max-width: 42%;
-  color: var(--color-ink);
-  font-family: var(--font-body);
-  font-size: var(--text-2xl);
-  font-weight: var(--weight-bold);
-  line-height: var(--leading-ui);
-  text-align: right;
-  text-wrap: balance;
 }
 
 /* CTA: the hero's button style, stretched to 70% of the card's width with the label centred. */
