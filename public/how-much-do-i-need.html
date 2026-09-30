@@ -1,0 +1,457 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1440" />
+    <title>How much do I need? — Turf Labs Co.</title>
+    <!--
+      Standalone HTML version of the "How much do I need?" section, in the style of the
+      homepage comparison section (src/components/sections/Comparison): full-bleed sky, copy
+      left in cols 1–4, frosted-glass table right in cols 5–12 with a raised card behind the
+      answer column. Tokens are copied from src/styles/tokens.css. Asset paths are relative,
+      so the file works opened directly or served from /how-much-do-i-need.html.
+    -->
+    <style>
+      @font-face {
+        font-family: 'Helvetica';
+        src: url('fonts/Helvetica-Bold.ttf') format('truetype');
+        font-weight: 700;
+        font-style: normal;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: 'Inter Tight';
+        src: url('fonts/InterTight-VariableFont_wght.ttf') format('truetype');
+        font-weight: 100 900;
+        font-style: normal;
+        font-display: swap;
+      }
+
+      :root {
+        --color-blue-500: #0076bd;
+        --color-green-500: #008031;
+        --color-green-400: #33995a;
+        --color-green-100: #cce6d6;
+        --color-deep-green-500: #00461a;
+        --color-muted-500: #596582;
+        --color-white: #ffffff;
+        --color-ink: #0a224d;
+        --color-ink-body: rgb(10 34 77 / 0.8);
+
+        --font-display: 'Helvetica', 'Helvetica Neue', Arial, sans-serif;
+        --font-body: 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+        --text-h3: 3rem;
+        --text-xl: 1.5rem;
+        --text-sm: 1.125rem;
+        --text-xs: 1rem;
+        --text-label-s: 0.875rem;
+        --weight-body: 400;
+        --weight-headline: 700;
+        --leading-h2: 1.15;
+        --leading-body: 1.45;
+        --leading-normal: normal;
+        --tracking-display: -0.005em;
+
+        --page-width: 1440px;
+        --grid-margin: 40px;
+        --grid-gutter: 20px;
+        --space-2: 8px;
+        --space-3: 12px;
+        --space-4: 16px;
+        --space-6: 24px;
+        --space-8: 32px;
+        --radius-lg: 24px;
+
+        --frost-bg: rgb(255 255 255 / 0.4);
+        --frost-border: rgb(255 255 255 / 0.55);
+        --frost-blur: blur(22px) saturate(1.2);
+        --frost-shadow: 0 24px 60px rgb(14 48 109 / 0.12);
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-width: var(--page-width);
+        background: var(--color-white);
+        color: var(--color-ink-body);
+        font-family: var(--font-body);
+        font-size: var(--text-xs);
+        line-height: var(--leading-body);
+        -webkit-font-smoothing: antialiased;
+      }
+
+      h2,
+      p {
+        margin: 0;
+      }
+
+      .visually-hidden {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+      }
+
+      .container {
+        width: 100%;
+        max-width: var(--page-width);
+        margin-inline: auto;
+        padding-inline: var(--grid-margin);
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(12, minmax(0, 1fr));
+        column-gap: var(--grid-gutter);
+      }
+
+      /* ---------- Section: same shell as .compare ---------- */
+      .need {
+        position: relative;
+        padding: 144px 0;
+        color: var(--color-white);
+        overflow: hidden;
+        isolation: isolate;
+      }
+
+      .need__sky {
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        background-color: #6fb0ec;
+        background-image: linear-gradient(168deg, #5b9fe6 0%, #74b3ef 32%, #9ccdf6 62%, #c6e3fd 88%, #d6ebfe 100%);
+      }
+
+      .need__cloud {
+        position: absolute;
+        border-radius: 50%;
+        background: radial-gradient(
+          closest-side,
+          rgb(255 255 255 / 0.85) 0%,
+          rgb(255 255 255 / 0.5) 35%,
+          rgb(255 255 255 / 0.18) 65%,
+          rgb(255 255 255 / 0) 100%
+        );
+      }
+      .need__cloud--a {
+        top: -140px;
+        right: -80px;
+        width: 720px;
+        height: 360px;
+      }
+      .need__cloud--b {
+        top: 60px;
+        left: 420px;
+        width: 520px;
+        height: 220px;
+        opacity: 0.7;
+      }
+      .need__cloud--c {
+        bottom: -160px;
+        left: -120px;
+        width: 760px;
+        height: 340px;
+      }
+      .need__cloud--d {
+        bottom: -60px;
+        right: 120px;
+        width: 620px;
+        height: 260px;
+        opacity: 0.8;
+      }
+
+      /* ---------- Copy (cols 1–4) ---------- */
+      .need__layout {
+        align-items: start;
+      }
+
+      .need__copy {
+        grid-column: 1 / 5;
+        margin-top: 36px;
+        max-width: 420px;
+      }
+
+      .need__headline {
+        color: var(--color-white);
+        font-family: var(--font-display);
+        font-size: var(--text-h3);
+        font-weight: var(--weight-headline);
+        line-height: var(--leading-h2);
+        letter-spacing: var(--tracking-display);
+      }
+
+      .need__intro {
+        max-width: 360px;
+        margin-top: var(--space-8);
+        color: rgb(255 255 255 / 0.85);
+        font-size: var(--text-xl);
+        line-height: var(--leading-body);
+        text-wrap: pretty;
+      }
+
+      /* ---------- Frosted panel + table (cols 5–12) ---------- */
+      .need__panel {
+        --need-col-space: 52%;
+
+        position: relative;
+        grid-column: 5 / 13;
+        margin-left: -48px;
+        border-radius: var(--radius-lg);
+        border: 1px solid var(--frost-border);
+        background: var(--frost-bg);
+        -webkit-backdrop-filter: var(--frost-blur);
+        backdrop-filter: var(--frost-blur);
+        box-shadow: var(--frost-shadow);
+      }
+
+      /* Raised card behind the "Size to buy" column: 120% of the table height, as in the comparison. */
+      .need__highlight {
+        position: absolute;
+        top: -10%;
+        left: var(--need-col-space);
+        right: -1px; /* flush with the panel's right edge (over its 1px border), no gap */
+        height: 120%;
+        border-radius: var(--radius-lg);
+        border: 1px solid rgb(255 255 255 / 0.85);
+        background:
+          linear-gradient(180deg, rgb(204 218 209 / 0.35), rgb(204 218 209 / 0.2)),
+          rgb(255 255 255 / 0.62);
+        -webkit-backdrop-filter: blur(22px) saturate(1.2);
+        backdrop-filter: blur(22px) saturate(1.2);
+        box-shadow: 0 28px 64px rgb(14 48 109 / 0.2);
+      }
+
+      .need__table {
+        position: relative;
+        width: 100%;
+        border-collapse: collapse;
+        table-layout: fixed;
+        color: var(--color-ink);
+        font-size: var(--text-sm);
+        line-height: var(--leading-body);
+      }
+
+      .need__table th:first-child {
+        width: var(--need-col-space);
+      }
+
+      .need__table th,
+      .need__table td {
+        padding: var(--space-6) var(--space-4) var(--space-6) var(--space-8);
+        vertical-align: middle;
+        text-align: left;
+        border-top: 1px solid rgb(255 255 255 / 0.6);
+      }
+
+      .need__table thead th {
+        height: 81px;
+        border-top: 0;
+      }
+
+      .need__table thead th:first-child {
+        background: rgb(255 255 255 / 0.1);
+        border-top-left-radius: var(--radius-lg);
+      }
+
+      .need__table tbody tr {
+        height: 88px;
+      }
+
+      /* Row separators stop at the raised card, which carries its own, softer ones. */
+      .need__table tbody td {
+        border-top-color: rgb(255 255 255 / 0.5);
+      }
+
+      .need__col {
+        font-size: var(--text-label-s);
+        font-weight: var(--weight-body);
+        line-height: var(--leading-normal);
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+      .need__col--space {
+        color: var(--color-muted-500);
+      }
+      .need__col--size {
+        color: var(--color-deep-green-500);
+      }
+
+      .need__label {
+        font-weight: var(--weight-headline);
+        color: var(--color-ink);
+      }
+
+      .need__area {
+        display: block;
+        margin-top: 2px;
+        font-size: var(--text-xs);
+        font-weight: var(--weight-body);
+        color: var(--color-ink-body);
+      }
+
+      .need__cell {
+        display: flex;
+        align-items: flex-start;
+        gap: var(--space-3);
+        font-weight: var(--weight-headline);
+        color: var(--color-ink);
+      }
+
+      .need__mark {
+        flex: none;
+        width: 20px;
+        height: 20px;
+        margin-top: 3px;
+        color: var(--color-green-400);
+      }
+
+      /* ---------- Note: frosted strip under the panel, clear of the raised card ---------- */
+      .need__note {
+        grid-column: 5 / 13;
+        display: flex;
+        align-items: flex-start;
+        gap: var(--space-3);
+        margin: 84px 0 0 -48px;
+        padding: var(--space-4) var(--space-6);
+        border-radius: var(--radius-lg);
+        border: 1px solid var(--frost-border);
+        background:
+          linear-gradient(rgb(204 230 214 / 0.55), rgb(204 230 214 / 0.55)),
+          var(--frost-bg);
+        -webkit-backdrop-filter: var(--frost-blur);
+        backdrop-filter: var(--frost-blur);
+        color: var(--color-ink);
+        font-size: var(--text-xs);
+      }
+
+      .need__note-icon {
+        flex: none;
+        width: 20px;
+        height: 20px;
+        margin-top: 2px;
+        color: var(--color-green-500);
+      }
+    </style>
+  </head>
+  <body>
+    <section class="need" aria-labelledby="need-heading">
+      <div class="need__sky" aria-hidden="true">
+        <span class="need__cloud need__cloud--a"></span>
+        <span class="need__cloud need__cloud--b"></span>
+        <span class="need__cloud need__cloud--c"></span>
+        <span class="need__cloud need__cloud--d"></span>
+      </div>
+
+      <div class="container grid need__layout">
+        <div class="need__copy">
+          <h2 id="need-heading" class="need__headline">How much<br />do I need?</h2>
+          <p class="need__intro">
+            Coverage depends on the size of the area and how much buildup you are dealing with. Here is a starting
+            point.
+          </p>
+        </div>
+
+        <div class="need__panel">
+          <div class="need__highlight" aria-hidden="true"></div>
+          <table class="need__table">
+            <caption class="visually-hidden">
+              Which OdorRx size to buy for the size of your space
+            </caption>
+            <thead>
+              <tr>
+                <th scope="col" class="need__col need__col--space">Your space</th>
+                <th scope="col" class="need__col need__col--size">Size to buy</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row" class="need__label">
+                  Patio or dog run
+                  <span class="need__area">up to 400 sq ft</span>
+                </th>
+                <td>
+                  <span class="need__cell">
+                    <svg class="need__mark" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                      <path
+                        fill="currentColor"
+                        d="M8 2a6 6 0 1 1 0 12A6 6 0 0 1 8 2Zm2.12 4.164L7.25 9.042 5.854 7.646a.5.5 0 1 0-.708.708l1.75 1.75a.5.5 0 0 0 .708 0l3.224-3.233a.5.5 0 0 0-.708-.707Z"
+                      />
+                    </svg>
+                    1 Gallon
+                  </span>
+                </td>
+              </tr>
+              <tr>
+                <th scope="row" class="need__label">
+                  Small yard
+                  <span class="need__area">400–800 sq ft</span>
+                </th>
+                <td>
+                  <span class="need__cell">
+                    <svg class="need__mark" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                      <path
+                        fill="currentColor"
+                        d="M8 2a6 6 0 1 1 0 12A6 6 0 0 1 8 2Zm2.12 4.164L7.25 9.042 5.854 7.646a.5.5 0 1 0-.708.708l1.75 1.75a.5.5 0 0 0 .708 0l3.224-3.233a.5.5 0 0 0-.708-.707Z"
+                      />
+                    </svg>
+                    2 × 1 Gallon
+                  </span>
+                </td>
+              </tr>
+              <tr>
+                <th scope="row" class="need__label">
+                  Standard yard
+                  <span class="need__area">800–1,600 sq ft</span>
+                </th>
+                <td>
+                  <span class="need__cell">
+                    <svg class="need__mark" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                      <path
+                        fill="currentColor"
+                        d="M8 2a6 6 0 1 1 0 12A6 6 0 0 1 8 2Zm2.12 4.164L7.25 9.042 5.854 7.646a.5.5 0 1 0-.708.708l1.75 1.75a.5.5 0 0 0 .708 0l3.224-3.233a.5.5 0 0 0-.708-.707Z"
+                      />
+                    </svg>
+                    4 × 1 Gallon
+                  </span>
+                </td>
+              </tr>
+              <tr>
+                <th scope="row" class="need__label">Facilities, fields, and multi-property</th>
+                <td>
+                  <span class="need__cell">
+                    <svg class="need__mark" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                      <path
+                        fill="currentColor"
+                        d="M8 2a6 6 0 1 1 0 12A6 6 0 0 1 8 2Zm2.12 4.164L7.25 9.042 5.854 7.646a.5.5 0 1 0-.708.708l1.75 1.75a.5.5 0 0 0 .708 0l3.224-3.233a.5.5 0 0 0-.708-.707Z"
+                      />
+                    </svg>
+                    <span>55-Gallon Drum or<br />330-Gallon Tote</span>
+                  </span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p class="need__note">
+          <svg class="need__note-icon" viewBox="0 0 20 20" aria-hidden="true" focusable="false">
+            <circle cx="10" cy="10" r="9" fill="currentColor" />
+            <rect x="9" y="8.5" width="2" height="6" rx="1" fill="#fff" />
+            <circle cx="10" cy="6" r="1.2" fill="#fff" />
+          </svg>
+          Heavier soiling uses more product. If the turf has not been treated in a while, plan for the lower end of
+          each range.
+        </p>
+      </div>
+    </section>
+  </body>
+</html>

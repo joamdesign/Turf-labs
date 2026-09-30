@@ -148,9 +148,9 @@ export const founder = {
 };
 
 export const testimonials = {
-  headline: 'Real Turf. Real Results.',
-  // One sentence per line; left to wrap, the column breaks it as "Real Turf. Real / Results."
-  headlineLines: ['Real Turf.', 'Real Results.'],
+  headline: 'Fake Grass. Real Results.',
+  // One sentence per line, so the column never breaks a sentence mid-way.
+  headlineLines: ['Fake Grass.', 'Real Results.'],
   // Placeholder quotes: realistic in shape and subject, to be replaced with approved early-tester reviews.
   // Images are turf crops cut from the section 05 photograph until customer or lifestyle photos are supplied.
   items: [
